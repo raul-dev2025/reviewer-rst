@@ -253,8 +253,8 @@ class TestRSTRefactor(unittest.TestCase):
         "Texto",
         "Subtitulo", "---------", # Nivel 1
         "Sub-Sub",   "^^^^^^^^^", # Nivel 2
-        "Otro N1?",  "=========", # REPETICIÓN: Debe ser Nivel 1 como mucho
-        "Mini",      "~~~~~~~~~"  # Nivel 3
+        "Otro N1?",  "=========", # REPETICIÓN: Nivel disponible no repetido/aparecido
+        "Mini",      "~~~~~~~~~"  # Nivel 4
     ]
 
     # Caso: El autor usa '---' como primer título (debe ser Nivel 1 -> Caja =)
@@ -279,13 +279,13 @@ class TestRSTRefactor(unittest.TestCase):
     # 
     self.assertIn("Titulo C\n--------", res_1)
 
-    # Verificacion escenario 2
-    self.assertIn("Otro N1?\n--------", res_2)
+    # Verificacion escenario 3    
+    self.assertIn("Otro N1?\n~~~~~~~~", res_2)
 
     # 1. Rodeado por el simbolo de primer Nivel "="
     self.assertIn("==========\nTitulo Uno\n==========", res_3)
-    # 2. Subrayado de nivel dos "-"
-    self.assertIn("Titulo Dos\n----------", res_3)
+    # 2. Subrayado de nivel dos "-"    
+    self.assertIn("Titulo Dos\n==========", res_3)
     # 3. Subrayado de nivel dos "-" por que repite simbolo
     self.assertIn("Titulo Tres\n----------", res_3)
 

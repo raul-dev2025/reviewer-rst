@@ -19,9 +19,6 @@ def get_level_from_symbol(symbol, state):
     current_level = state["next_available_level"]
     state["mapping"][symbol] = current_level
 
-    if current_level == 0:
-      state["level_0_symbol"] = symbol
-
     if state["next_available_level"] < 4:
       state["next_available_level"] +=1
     return current_level
@@ -29,10 +26,10 @@ def get_level_from_symbol(symbol, state):
   # Si ya es conocido
   assigned_level = state["mapping"][symbol]
 
-  # Proteccion Nivel 0
-  # Despues de su primera aparicion "=", es Nivel 1
-  if symbol == state["level_0_symbol"] and state["title_counter"] > 0 and assigned_level == 0:
-    return 1
+  # REGLA DE PROTECCIÓN: Si reaparece el símbolo del Título del Documento (0),
+  # en adelante sera nivel 1
+  if assigned_level == 0 and state["title_counter"] > 0:
+    return state["next_available_level"]
 
   return assigned_level
 
@@ -48,15 +45,14 @@ def render_title(text, level, filename_base, state):
   output.append(f".. _{filename_base}_{state['title_counter']}:")
   output.append("")
 
-  # Caputra estilo
-  style = LEVEL_STYLES.get(level, {'char': '=', 'overline': False})
+  # Recuperamos el estilo de nuestra metodología (default a Nivel 1 si falla)
+  style = LEVEL_STYLES.get(level, LEVEL_STYLES[1])
 
   # El caracter utilizado para el titulo
-  char = '=' if level in [0, 1] else next((s for s, l in state['mapping'].items() if l == level), '-')
-
+  char = style['char']
   underline = char * len(text)
 
-  if style['overline']:
+  if style.get('overline', False):
     output.append(underline)
     output.append(text)
     output.append(underline)
