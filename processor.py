@@ -149,10 +149,6 @@ def get_toc_directive():
     ""
   ]
 
-#########################################################
-# Funcionalidad separada para join_broken_paragraphs()  #
-#########################################################
-
 # El maestro de ceremonias
 def process_rst_blocks(lines):
   """
@@ -222,6 +218,46 @@ def group_lines_into_raw_blocks(lines):
     raw_blocks.append(" ".join(current_acc).strip())
 
   return raw_blocks
+
+def group_refs_blocks(lines):
+  """
+  Maquina de estado para capturar bloques de referencias.
+  """
+  # Patrón que busca:
+  # ^\s* -> Posibles espacios al inicio
+  # (\*\*|__)?    -> Opcionalmente negritas (Markdown: ** o __)
+  # [Nn]ota       -> La palabra "nota" (mayúscula o minúscula)
+  # (?:[ \t]+de)? -> Opcionalmente " de" (sin capturarlo)
+  # .* -> Cualquier cosa después
+  nota_pattern = re.compile(r'^\s*(\*\*|__)?nota(?:[ \t]+de)?', re.IGNORECASE)
+
+  all_ref_blocks = []
+  current_block = []
+
+  for line in lines:
+    is_ref_start = is_structural_break(line, seek_refs=True)
+
+    if is_ref_start:
+      if current_block:
+        all_ref_blocks.append(current_block)
+
+      current_block = [line]
+      continue
+
+    if current_block:
+      is_note = bool(nota_pattern.match(line.strip()))      
+      is_other_header = line.startswith('#')
+
+      if is_note or is_other_header:
+        all_ref_blocks.append(current_block)
+        current_block = []
+      else:
+        current_block.append(line)
+
+  if current_block:
+    all_ref_blocks.append(current_block)
+
+  return all_ref_blocks
 
 # El filtro de bloques
 def filter_and_format_blocks(raw_blocks, doc_titles):
