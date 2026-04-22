@@ -148,21 +148,22 @@ def get_toc_directive():
   ]
 
 # El maestro de ceremonias
-def process_rst_blocks(lines):
+def process_rst_blocks(lines, seek_refs=False):
   """
   Coordina la secuencia de llamadas a funcion, en el orden
   correcto y esperado. Sustituye a join_broken_paragraphs()
   """
-  # 1. Logica de aplicacion; el recolector
   titles = get_document_titles(lines)
 
-  # 2. Agrupacion estructural; el evaluador de continuidad
-  raw_blocks = group_lines_into_raw_blocks(lines)
+  raw_blocks = group_lines_into_raw_blocks(lines, seek_refs=seek_refs)
 
-  # 3. Refinado; El filtro de bloques
-  final_blocks = filter_and_format_blocks(raw_blocks, titles)
-
-  return final_blocks
+  if seek_refs:
+    # Evita pasar el filtro rST.
+    return raw_blocks
+    
+  # Flujo estandar 
+  final_blocks = filter_and_format_blocks(raw_blocks, titles)``
+  return ref_blocks
 
 # El recolector
 def get_document_titles(lines):
@@ -281,14 +282,4 @@ def filter_and_format_blocks(raw_blocks, doc_titles):
       blocks.append(clean_text)
 
   return blocks
-
-
-
-
-
-
-
-
-
-
 
