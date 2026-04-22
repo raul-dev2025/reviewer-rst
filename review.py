@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
-import sys
-import os
+import sys, os
 
 # Gestión de archivos
-from file_manager import create_backup, read_file, save_file
+from file_manager import create_backup, read_file, save_file, export_refs_to_out_files
 
 # Lógica de transformación
 from cleaner import strip_metadata
@@ -13,40 +12,50 @@ from processor import (
     extract_literal_blocks,
     reinject_literal_blocks,
     process_rst_blocks
-    #join_broken_paragraphs
 )
 
 def main():
     if len(sys.argv) < 2:
         return
 
-    for file_path in sys.argv[1:]:
-        create_backup(file_path)
+    # Detectar si el primer argumento es la bandera de referencias
+    seek_refs_mode = "--seek-refs" in sys.argv
+    file_args = [arg for arg in sys.argv[1:] if arg != "--seek-refs"]
+
+    for file_path in file_args:
         content = read_file(file_path)
         lines = content.splitlines()
         filename_base = os.path.splitext(os.path.basename(file_path))[0]
         
-        # 1. PROTECCIÓN: Identificar y extraer bloques de código
-        ranges = identify_literal_blocks(lines)
-        protected_lines, blocks_dict = extract_literal_blocks(lines, ranges)
-        
-        # 2. LIMPIEZA: Metadata y marcas MD obsoletas sobre el texto protegido
-        # Convertimos a string para strip_metadata y luego volvemos a lista
-        clean_text = strip_metadata("\n".join(protected_lines))
-        
-        # 3. PROCESAMIENTO: Unión de párrafos (sin tocar el código oculto)
-        blocks = process_rst_blocks(clean_text.splitlines())
-        #blocks = join_broken_paragraphs(clean_text.splitlines())
-        
-        # 4. FORMATEO: Títulos y jerarquía dinámica
-        formatted_rst = rst_title_formatter(blocks, filename_base)
-        
-        # 5. RESTAURACIÓN: Reinyectar el código original en los marcadores
-        final_output = reinject_literal_blocks(formatted_rst, blocks_dict)
-        
-        # Guardado final
-        save_file(file_path, final_output)
-        print(f"✅ Procesado con éxito (Bloques protegidos: {len(ranges)}): {file_path}")
+        if seek_refs_mode:
+            # No creamos backup (.bak) porque no modificamos la fuente
+            ref_blocks = process_rst_blocks(lines, seek_refs=True)
+            export_refs_to_out_files(ref_blocks)
+            print(f"🎯 Referencias extraídas quirúrgicamente de: {file_path}")
+            
+        else:
+            # --- FLUJO ESTÁNDAR DE REVISIÓN ---
+            create_backup(file_path)
+            
+            # 1. PROTECCIÓN: Identificar y extraer bloques de código
+            ranges = identify_literal_blocks(lines)
+            protected_lines, blocks_dict = extract_literal_blocks(lines, ranges)
+            
+            # 2. LIMPIEZA: Metadata y marcas MD obsoletas
+            clean_text = strip_metadata("\n".join(protected_lines))
+            
+            # 3. PROCESAMIENTO: Coordinación de bloques (Mutex automático en False)
+            blocks = process_rst_blocks(clean_text.splitlines())
+            
+            # 4. FORMATEO: Títulos y jerarquía dinámica
+            formatted_rst = rst_title_formatter(blocks, filename_base)
+            
+            # 5. RESTAURACIÓN: Reinyectar el código original
+            final_output = reinject_literal_blocks(formatted_rst, blocks_dict)
+            
+            # Guardado final
+            save_file(file_path, final_output)
+            print(f"✅ Procesado con éxito (Bloques protegidos: {len(ranges)}): {file_path}")
 
 if __name__ == "__main__":
     main()
