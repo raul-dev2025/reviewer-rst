@@ -32,3 +32,25 @@ def save_file(file_path, content):
     """Guarda el contenido procesado en el archivo original."""
     with open(file_path, 'w', encoding='utf-8') as f:
         f.write(content)
+
+def export_refs_to_out_files(all_blocks):
+  """
+  Toma la lista de listas (bloques) y crea los archivos outN.md
+  """
+  import os
+
+  output_path = "/tmp/finOut"
+
+  if not os.path.exists(output_path):
+    os.makedirs(output_path)
+
+  for i, block in enumerate(all_blocks, start=1):
+    file_name = f"out{i}.md"
+    full_path = os.path.join(output_path, file_name)
+
+    with open(full_path, 'w', encoding='utf-8') as f:
+      f.writelines(block)
+
+    print(f"📦 Bloque de referencias exportado a: {full_path}")
+
+    
