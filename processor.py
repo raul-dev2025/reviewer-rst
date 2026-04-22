@@ -16,24 +16,22 @@ def is_potential_title_text(line):
     # Un título no es un párrafo largo ni termina en punto
     return 0 < len(stripped) < 100 and not stripped.endswith('.')
 
-def is_structural_break(line, next_line=None):
-    """Determina si la línea actual rompe la continuidad del párrafo."""
-    stripped = line.strip()
-    if not stripped: return True
-    
-    # 1. Directivas o bloques de código
-    if stripped.startswith('.. ') or stripped.startswith('   :') or stripped.startswith('::'):
-        return True
-
-    # 2. Si la línea misma es un subrayado
-    if is_underline(line):
-        return True
-
-    # 3. Anticipación: Si la siguiente línea es un subrayado, la actual es un título
-    if next_line and is_underline(next_line):
-        return True
-    
+def is_structural_break(line, seek_refs=False):
+  stripped = line.strip()
+  if not stripped:
     return False
+
+  if seek_refs:
+    # Mutex referencias, desactiva bloques
+    ref_start_pattern = re.compile(
+      r'(###\s+.*(?:Referencias|Recursos|Agradecimientos).*|\[#?f1\])',
+      re.IGNORECASE
+    )
+    return bool(ref_start_pattern.search(stripped))
+
+  else:
+    # Mutex bloques, desactiva referencias    
+    return stripped.startswith('.. ') or stripped.startswith('   :') or stripped.startswith('::')
 
 def is_likely_same_paragraph(line_a, line_b):
   #
