@@ -39,7 +39,7 @@ def export_refs_to_out_files(all_blocks):
   """
   import os
 
-  output_path = "/tmp/finOut"
+  output_path = "/tmp/findOut"
 
   if not os.path.exists(output_path):
     os.makedirs(output_path)
