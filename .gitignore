@@ -8,3 +8,5 @@ venv/
 .vscode/
 .idea/
 *.log
+[b-B]itacora*
+msj.txt
