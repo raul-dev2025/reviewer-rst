@@ -17,17 +17,18 @@ def is_potential_title_text(line):
     return 0 < len(stripped) < 100 and not stripped.endswith('.')
 
 def is_structural_break(line, seek_refs=False):
+  """
+  Determinar si la línea actual representa un punto de ruptura.
+  """
   stripped = line.strip()
   if not stripped:
     return False
 
   if seek_refs:
-    # Mutex referencias, desactiva bloques
-    ref_start_pattern = re.compile(
-      r'(###\s+.*(?:Referencias|Recursos|Agradecimientos).*|\[#?f1\])',
-      re.IGNORECASE
-    )
-    return bool(ref_start_pattern.search(stripped))
+    is_title = re.match(r'^(?:Referencias|Recursos|Agradecimientos|###)', stripped, re.IGNORECASE)
+    is_footnote = re.match(r'^(\.\.\s+)?\[#?[a-zA-Z0-9]+\]', stripped)
+
+    return bool(is_title or is_footnote)
 
   else:
     # Mutex bloques, desactiva referencias    
@@ -162,7 +163,7 @@ def process_rst_blocks(lines, seek_refs=False):
     return raw_blocks
     
   # Flujo estandar 
-  final_blocks = filter_and_format_blocks(raw_blocks, titles)``
+  final_blocks = filter_and_format_blocks(raw_blocks, titles)
   return ref_blocks
 
 # El recolector
@@ -180,7 +181,7 @@ def get_document_titles(lines):
   return titles
 
 # El evaluador de continuidad
-def group_lines_into_raw_blocks(lines):
+def group_lines_into_raw_blocks(lines, seek_refs=False):
   """
   Agrupa líneas en bloques lógicos.
   Cohesiona parrafos fragmentados.
@@ -219,44 +220,49 @@ def group_lines_into_raw_blocks(lines):
   return raw_blocks
 
 def group_refs_blocks(lines):
-  """
-  Maquina de estado para capturar bloques de referencias.
-  """
-  # Patrón que busca:
-  # ^\s* -> Posibles espacios al inicio
-  # (\*\*|__)?    -> Opcionalmente negritas (Markdown: ** o __)
-  # [Nn]ota       -> La palabra "nota" (mayúscula o minúscula)
-  # (?:[ \t]+de)? -> Opcionalmente " de" (sin capturarlo)
-  # .* -> Cualquier cosa después
-  nota_pattern = re.compile(r'^\s*(\*\*|__)?nota(?:[ \t]+de)?', re.IGNORECASE)
+    """
+    Maquina de estado para capturar bloques de referencias.
+    Captura bloques de referencias con integridad estructural (estilo bloque de código).
+    """
+    all_ref_blocks = []
+    current_block = []
 
-  all_ref_blocks = []
-  current_block = []
+    i = 0
+    while i < len(lines):
+        line = lines[i]
 
-  for line in lines:
-    is_ref_start = is_structural_break(line, seek_refs=True)
+        # ¿Es el inicio de una sección de referencias o una nota?
+        if is_structural_break(line, seek_refs=True):
+            if current_block:
+                all_ref_blocks.append(current_block)
 
-    if is_ref_start:
-      if current_block:
-        all_ref_blocks.append(current_block)
+            # Iniciamos el nuevo bloque con la línea disparadora
+            current_block = [line]
+            i += 1
 
-      current_block = [line]
-      continue
+            # Consumimos el "cuerpo" del bloque (líneas indentadas)
+            while i < len(lines):
+                next_line = lines[i]
+
+                # Si la línea está indentada, es parte del bloque (como las URLs de tu out130)
+                if next_line.startswith(' ') or next_line.startswith('\t') or not next_line.strip():
+                    current_block.append(next_line)
+                    i += 1
+                # Si viene otra nota pegada, también es parte del mismo bloque lógico
+                elif is_structural_break(next_line, seek_refs=True):
+                    current_block.append(next_line)
+                    i += 1
+                else:
+                    # Encontramos texto sin indentar: fin del bloque quirúrgico
+                    break
+            continue # Volvemos al bucle principal con el índice actualizado
+
+        i += 1
 
     if current_block:
-      is_note = bool(nota_pattern.match(line.strip()))      
-      is_other_header = line.startswith('#')
-
-      if is_note or is_other_header:
         all_ref_blocks.append(current_block)
-        current_block = []
-      else:
-        current_block.append(line)
 
-  if current_block:
-    all_ref_blocks.append(current_block)
-
-  return all_ref_blocks
+    return all_ref_blocks
 
 # El filtro de bloques
 def filter_and_format_blocks(raw_blocks, doc_titles):
