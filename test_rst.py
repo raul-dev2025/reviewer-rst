@@ -26,13 +26,19 @@ class TestRSTRefactor(unittest.TestCase):
       Validacion de puntos de ruptura estructural
       """
       from processor import is_structural_break
-      self.assertTrue(is_structural_break(""))
-      self.assertTrue(is_structural_break(".. nota:"))
-      self.assertTrue(is_structural_break("::"))
-      self.assertFalse(is_structural_break("esto es texto\n  y mas texto"))
-      self.assertTrue(is_structural_break("Titulo de seccion", next_line="============="))
-      self.assertFalse(is_structural_break("Esto cadena no parte del titulo", next_line="y continua en esta linea"))
 
+      self.assertTrue(is_structural_break(""), "Una línea vacía debe romper el bloque")
+      self.assertTrue(is_structural_break(".. nota:"), "Las  directivas rST son rupturas")
+      self.assertTrue(is_structural_break("::"), "El inicio de bloque es ruptura")
+      self.assertTrue(is_structural_break("   :autor:"), "Los  campos indentados son ruptura")
+
+      self.assertFalse(is_structural_break("esto es texto normal"), "texto normal no rompe")
+      self.assertFalse(is_structural_break("  continuación texto"), "indentación no rompe")
+
+      self.assertTrue(is_structural_break("Referencias", seek_refs=True))
+      self.assertTrue(is_structural_break("[1] Referencia técnica", seek_refs=True))
+      self.assertTrue(is_structural_break(".. [#] Nota al pie", seek_refs=True))
+      
   def test_rst_title_formatter(self):
       """
       Validez del formato aplicado al texto
