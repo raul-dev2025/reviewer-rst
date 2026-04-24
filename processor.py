@@ -22,7 +22,7 @@ def is_structural_break(line, seek_refs=False):
   """
   stripped = line.strip()
   if not stripped:
-    return False
+    return True
 
   if seek_refs:
     is_title = re.match(r'^(?:Referencias|Recursos|Agradecimientos|###)', stripped, re.IGNORECASE)
