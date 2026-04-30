@@ -155,6 +155,32 @@ def get_toc_directive():
     ""
   ]
 
+def validate_structural_integrity(lines):
+    """
+    Valida la integridad estructural en los bloques de referencias.
+    MOTIVO DEL CAMBIO: Se aísla la validación de la indentación para que pueda
+    ser ejecutada independientemente del flujo, evitando acoplar la responsabilidad
+    al modo seek_refs o a la agrupación de bloques.
+    """
+    from exceptions import StructuralIntegrityError
+    import re
+
+    in_reference_block = False
+    for i, line in enumerate(lines):
+        stripped = line.strip()
+
+        if stripped.startswith(".. [") or re.match(r'^\[#?[a-zA-Z0-9]+\]', stripped):
+            in_reference_block = True
+        elif not stripped:
+            in_reference_block = False
+
+        if in_reference_block and i > 0:
+            prev_stripped = lines[i-1].strip()
+            if prev_stripped.startswith(".. [") or re.match(r'^\[#?[a-zA-Z0-9]+\]', prev_stripped):
+                if not (line.startswith(" ") or line.startswith("\t") or not line.strip()):
+                    if not stripped.startswith(".. [") and not stripped.startswith(":"):
+                        raise StructuralIntegrityError(i + 1, "Falta indentación en bloque de referencia")
+
 # El maestro de ceremonias
 def process_rst_blocks(lines, seek_refs=False):
   """
