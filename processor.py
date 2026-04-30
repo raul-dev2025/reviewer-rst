@@ -187,6 +187,8 @@ def process_rst_blocks(lines, seek_refs=False):
   Coordina la secuencia de llamadas a funcion, en el orden
   correcto y esperado.
   """
+  validate_structural_integrity(lines)
+
   titles = get_document_titles(lines)
 
   raw_blocks = group_lines_into_raw_blocks(lines, seek_refs=seek_refs)
@@ -197,7 +199,7 @@ def process_rst_blocks(lines, seek_refs=False):
     
   # Flujo estandar 
   final_blocks = filter_and_format_blocks(raw_blocks, titles)
-  return ref_blocks
+  return final_blocks
 
 # El recolector
 def get_document_titles(lines):
