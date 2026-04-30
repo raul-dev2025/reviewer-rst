@@ -30,6 +30,7 @@ class TestRSTRefactor(unittest.TestCase):
       self.assertTrue(is_structural_break(""), "Una línea vacía debe romper el bloque")
       self.assertTrue(is_structural_break(".. nota:"), "Las  directivas rST son rupturas")
       self.assertTrue(is_structural_break("::"), "El inicio de bloque es ruptura")
+      self.assertTrue(is_structural_break(":autor:"), "Si empieza por dos puntos es ruptura")
       self.assertTrue(is_structural_break("   :autor:"), "Los  campos indentados son ruptura")
 
       self.assertFalse(is_structural_break("esto es texto normal"), "texto normal no rompe")
