@@ -312,10 +312,6 @@ class TestRSTRefactor(unittest.TestCase):
     blocks = process_rst_blocks(lines)
     self.assertEqual(blocks[2], "causada por efectiva desaparicion")
 
-  # En el proceso de depuracion de join_broken_paragraphs()
-  # vamos a dividir la funcionalidad del algoritmo y probaremos cada
-  # parte por separado
-  #
   # Primer test propuesto: get_documet_titles()
   # El recolector
   def test_get_documet_titles(self):
@@ -399,7 +395,26 @@ class TestRSTRefactor(unittest.TestCase):
     # 4. total esperad: 3 (TOC) + 2 (contenido limpio) = 5
     self.assertEqual(len(final_blocks), 4)
 
-
+  def test_full_reference_processing(self):
+    """
+    Comprueba que una nota de pie de página y su enlace son procesados e identificados
+    correctamente como un bloque de referencias usando la convención rST estándar.
+    """
+    from processor import process_rst_blocks
+    
+    lines = [
+        "En el hipervisor deben ser deshabilitadas las trampas (traps) [#f1]_.",
+        "",
+        ".. [#f1] Traps, conjunto especial de instrucciones.",
+        "   Ver `CPUID wikipedia <https://en.wikipedia.org/wiki/CPUID>`__"
+    ]
+    
+    # Procesamos en modo referencias
+    blocks = process_rst_blocks(lines, seek_refs=True)
+    
+    # Verificamos que se haya capturado el bloque de referencia
+    self.assertTrue(len(blocks) > 0, "Debería haberse detectado el bloque de referencia.")
+    self.assertIn("[#f1]", blocks[0], "El bloque debe contener el identificador de la nota.")
 
 
 
