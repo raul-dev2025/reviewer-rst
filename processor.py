@@ -289,8 +289,10 @@ def group_refs_blocks(lines):
                   current_block.append(next_line)
                   i += 1
                 else:
-                    # Encontramos texto sin indentar: fin del bloque quirúrgico
-                    break
+                  if not next_line.strip().startswith(".. [") and not next_line.strip().startswith(":"):
+                    raise StructuralIntegrityError(i + 1, "Falta indentación en bloque de referencia")
+                  # Encontramos texto sin indentar: fin del bloque quirúrgico
+                  break
             continue # Volvemos al bucle principal con el índice actualizado
 
         i += 1
