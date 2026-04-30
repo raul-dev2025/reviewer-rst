@@ -282,12 +282,12 @@ def group_refs_blocks(lines):
 
                 # Si la línea está indentada, es parte del bloque (como las URLs de tu out130)
                 if next_line.startswith(' ') or next_line.startswith('\t') or not next_line.strip():
-                    current_block.append(next_line)
-                    i += 1
+                  current_block.append(next_line)
+                  i += 1
                 # Si viene otra nota pegada, también es parte del mismo bloque lógico
                 elif is_structural_break(next_line, seek_refs=True):
-                    current_block.append(next_line)
-                    i += 1
+                  current_block.append(next_line)
+                  i += 1
                 else:
                     # Encontramos texto sin indentar: fin del bloque quirúrgico
                     break
