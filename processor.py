@@ -185,7 +185,7 @@ def validate_structural_integrity(lines):
 def process_rst_blocks(lines, seek_refs=False):
   """
   Coordina la secuencia de llamadas a funcion, en el orden
-  correcto y esperado. Sustituye a join_broken_paragraphs()
+  correcto y esperado.
   """
   titles = get_document_titles(lines)
 
