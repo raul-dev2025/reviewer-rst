@@ -24,15 +24,22 @@ def is_structural_break(line, seek_refs=False):
   if not stripped:
     return True
 
+  if stripped.startswith('.. ') or stripped.startswith('::'):
+    return True
+
+  if stripped.startswith(':'):
+    return True
+
+  if stripped.startswith('   :'):
+    return True
+
   if seek_refs:
     is_title = re.match(r'^(?:Referencias|Recursos|Agradecimientos|###)', stripped, re.IGNORECASE)
     is_footnote = re.match(r'^(\.\.\s+)?\[#?[a-zA-Z0-9]+\]', stripped)
 
     return bool(is_title or is_footnote)
 
-  else:
-    # Mutex bloques, desactiva referencias    
-    return stripped.startswith('.. ') or stripped.startswith('   :') or stripped.startswith('::')
+  return False
 
 def is_likely_same_paragraph(line_a, line_b):
   #
