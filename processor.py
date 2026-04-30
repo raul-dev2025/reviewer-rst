@@ -259,6 +259,7 @@ def group_refs_blocks(lines):
     Maquina de estado para capturar bloques de referencias.
     Captura bloques de referencias con integridad estructural (estilo bloque de código).
     """
+    from exceptions import StructuralIntegrityError
     all_ref_blocks = []
     current_block = []
 
