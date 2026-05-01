@@ -60,7 +60,17 @@ def extract_references_context(context_input):
 
   context_lines = []
   if not context_input:
-    return context_lines
+    #
+    default_path = "/tmp/findOut/input_docs.md"
+    if os.path.exists(default_path):
+      try:
+        with open(default_path, 'r', encoding='utf-8') as f:
+          lines = f.readlines()
+          for line in lines:
+            context_input.append(line)
+      execpt Exception as e:
+        print(f"️⚠️ No se pudo leer el archivo de contexto: {e}")
+        return context_lines
 
   #  Procesado de las lineas de contexto recibido
   for line in context_input:
