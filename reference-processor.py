@@ -69,7 +69,7 @@ def extract_references_context(context_input):
           lines = f.readlines()
           for line in lines:
             context_input.append(line)
-      execpt Exception as e:
+      except Exception as e:
         print(f"️⚠️ No se pudo leer el archivo de contexto: {e}")
         return context_lines
   else:
