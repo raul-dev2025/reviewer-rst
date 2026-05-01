@@ -52,9 +52,9 @@ def export_refs_to_out_files(all_refs, section_name=None):
     # 1. Contenido Markdown
     from reference_processor import extract_references_context, format_references
 
-  for i, block in enumerate(all_blocks, start=1):
-    file_name = f"out{i}.md"
-    full_path = os.path.join(output_path, file_name)
+    # Obtenemos el contexto y las referencias
+    context_lines = extract_references_context([])
+    content_md = "\n".join(context_lines) + "\n\n" + format_references(all_refs, rst_format=False)
 
     with open(full_path, 'w', encoding='utf-8') as f:
       f.writelines(block)
