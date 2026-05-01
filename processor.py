@@ -254,53 +254,53 @@ def group_lines_into_raw_blocks(lines, seek_refs=False):
 
   return raw_blocks
 
-def group_refs_blocks(lines):
-    """
-    Maquina de estado para capturar bloques de referencias.
-    Captura bloques de referencias con integridad estructural (estilo bloque de código).
-    """
-    from exceptions import StructuralIntegrityError
-    all_ref_blocks = []
-    current_block = []
+# def group_refs_blocks(lines):
+#     """
+#     Maquina de estado para capturar bloques de referencias.
+#     Captura bloques de referencias con integridad estructural (estilo bloque de código).
+#     """
+#     from exceptions import StructuralIntegrityError
+#     all_ref_blocks = []
+#     current_block = []
 
-    i = 0
-    while i < len(lines):
-        line = lines[i]
+#     i = 0
+#     while i < len(lines):
+#         line = lines[i]
 
-        # ¿Es el inicio de una sección de referencias o una nota?
-        if is_structural_break(line, seek_refs=True):
-            if current_block:
-                all_ref_blocks.append(current_block)
+#         # ¿Es el inicio de una sección de referencias o una nota?
+#         if is_structural_break(line, seek_refs=True):
+#             if current_block:
+#                 all_ref_blocks.append(current_block)
 
-            # Iniciamos el nuevo bloque con la línea disparadora
-            current_block = [line]
-            i += 1
+#             # Iniciamos el nuevo bloque con la línea disparadora
+#             current_block = [line]
+#             i += 1
 
-            # Consumimos el "cuerpo" del bloque (líneas indentadas)
-            while i < len(lines):
-                next_line = lines[i]
+#             # Consumimos el "cuerpo" del bloque (líneas indentadas)
+#             while i < len(lines):
+#                 next_line = lines[i]
 
-                # Si la línea está indentada, es parte del bloque (como las URLs de tu out130)
-                if next_line.startswith(' ') or next_line.startswith('\t') or not next_line.strip():
-                  current_block.append(next_line)
-                  i += 1
-                # Si viene otra nota pegada, también es parte del mismo bloque lógico
-                elif is_structural_break(next_line, seek_refs=True):
-                  current_block.append(next_line)
-                  i += 1
-                else:
-                  if not next_line.strip().startswith(".. [") and not next_line.strip().startswith(":"):
-                    raise StructuralIntegrityError(i + 1, "Falta indentación en bloque de referencia")
-                  # Encontramos texto sin indentar: fin del bloque quirúrgico
-                  break
-            continue # Volvemos al bucle principal con el índice actualizado
+#                 # Si la línea está indentada, es parte del bloque (como las URLs de tu out130)
+#                 if next_line.startswith(' ') or next_line.startswith('\t') or not next_line.strip():
+#                   current_block.append(next_line)
+#                   i += 1
+#                 # Si viene otra nota pegada, también es parte del mismo bloque lógico
+#                 elif is_structural_break(next_line, seek_refs=True):
+#                   current_block.append(next_line)
+#                   i += 1
+#                 else:
+#                   if not next_line.strip().startswith(".. [") and not next_line.strip().startswith(":"):
+#                     raise StructuralIntegrityError(i + 1, "Falta indentación en bloque de referencia")
+#                   # Encontramos texto sin indentar: fin del bloque quirúrgico
+#                   break
+#             continue # Volvemos al bucle principal con el índice actualizado
 
-        i += 1
+#         i += 1
 
-    if current_block:
-        all_ref_blocks.append(current_block)
+#     if current_block:
+#         all_ref_blocks.append(current_block)
 
-    return all_ref_blocks
+#     return all_ref_blocks
 
 # El filtro de bloques
 def filter_and_format_blocks(raw_blocks, doc_titles):
