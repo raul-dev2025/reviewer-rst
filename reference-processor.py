@@ -62,7 +62,13 @@ def extract_references_context(context_input):
   if not context_input:
     return context_lines
 
+  #  Procesado de las lineas de contexto recibido
+  for line in context_input:
+    context_lines.append(line.strip())
+
+
   return context_lines
+
 
 def format_references(all_refs, rst_format=False):
 
