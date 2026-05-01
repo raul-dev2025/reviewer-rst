@@ -78,6 +78,9 @@ def extract_references_context(context_input):
     if striped_line not in context_lines:
       context_lines.append(striped_line)
 
+  if context_lines and not context_lines[-1].endswith('\n'):
+    context_lines[-1] += '\n'
+
   # Introducimos un salto de linea en cada nueva addicion
   if context_lines = line.rstrip():
     context_lines[-1] += '\n'
