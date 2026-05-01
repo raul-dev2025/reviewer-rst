@@ -64,7 +64,9 @@ def extract_references_context(context_input):
 
   #  Procesado de las lineas de contexto recibido
   for line in context_input:
-    context_lines.append(line.strip())
+    striped_line = line.rstrip()
+    if striped_line not in context_lines:
+      context_lines.append(striped_line)
 
 
   return context_lines
