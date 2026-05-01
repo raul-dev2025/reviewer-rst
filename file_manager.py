@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import os
-import shutil
+import os, shutil
 from datetime import datetime
 
 def create_backup(file_path):
