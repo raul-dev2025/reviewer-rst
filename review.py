@@ -2,7 +2,7 @@
 import sys, os
 
 # Gestión de archivos
-from file_manager import create_backup, read_file, save_file, export_refs_to_out_files
+import file_manager
 
 # Lógica de transformación
 from cleaner import strip_metadata
