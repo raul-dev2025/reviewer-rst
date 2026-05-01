@@ -52,7 +52,17 @@ def group_refs_blocks(lines):
 
     return all_ref_blocks
 
-def extract_references_context(lines):
+def extract_references_context(context_input):
+  """
+  Extrae el contexto para las referencias desde el documento original.
+  """
+  import os
+
+  context_lines = []
+  if not context_input:
+    return context_lines
+
+  return context_lines
 
 def format_references(all_refs, rst_format=False):
 
