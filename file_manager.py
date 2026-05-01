@@ -58,6 +58,7 @@ def export_refs_to_out_files(all_refs, section_name=None):
     # 2. Formato para las referencias Markdown
     references_md = format_references(all_refs, rst_format=False)
 
-    print(f"📦 Bloque de referencias exportado a: {full_path}")
+    # Contexto y referencias en formato markdown
+    content_md = "\n".join(context_lines) + "\n\n" + references_md
 
     
