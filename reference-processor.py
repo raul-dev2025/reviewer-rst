@@ -51,3 +51,8 @@ def group_refs_blocks(lines):
         all_ref_blocks.append(current_block)
 
     return all_ref_blocks
+
+def extract_references_context(lines):
+
+def format_references(all_refs, rst_format=False):
+
