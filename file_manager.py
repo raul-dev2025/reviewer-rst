@@ -49,10 +49,10 @@ def export_refs_to_out_files(all_refs, section_name=None):
     full_path_md = os.path.join(output_path, file_name_md)
     full_path_rst = os.path.join(output_path, file_name_rst)
 
-    # 1. Contenido Markdown
+    # Importa las funciones necesarias desde el modulo de referencias
     from reference_processor import extract_references_context, format_references
 
-    # Obtenemos el contexto y las referencias
+    # 1. Guarda el contexto
     context_lines = extract_references_context([])
     content_md = "\n".join(context_lines) + "\n\n" + format_references(all_refs, rst_format=False)
 
