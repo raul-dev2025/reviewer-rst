@@ -46,7 +46,8 @@ def export_refs_to_out_files(all_refs, section_name=None):
     file_name_md = f"out_{safe_section_name}.md"
     file_name_rst = f"out_{safe_section_name}_rST.md"
 
-  output_path = "/tmp/findOut"
+    full_path_md = os.path.join(output_path, file_name_md)
+    full_path_rst = os.path.join(output_path, file_name_rst)
 
   if not os.path.exists(output_path):
     os.makedirs(output_path)
