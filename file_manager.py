@@ -33,11 +33,18 @@ def save_file(file_path, content):
     with open(file_path, 'w', encoding='utf-8') as f:
         f.write(content)
 
-def export_refs_to_out_files(all_blocks):
-  """
-  Toma la lista de listas (bloques) y crea los archivos outN.md
-  """
-  import os
+def export_refs_to_out_files(all_refs, section_name=None):
+    """
+    Orquesta la generación y escritura de los archivos de salida divididos por formato.
+    """
+    output_path = "/tmp/findOut"
+    if not os.path.exists(output_path):
+        os.makedirs(output_path)
+
+    safe_section_name = "".join([c if c.isalnum() else "_" for c in section_name]).strip("_")
+
+    file_name_md = f"out_{safe_section_name}.md"
+    file_name_rst = f"out_{safe_section_name}_rST.md"
 
   output_path = "/tmp/findOut"
 
