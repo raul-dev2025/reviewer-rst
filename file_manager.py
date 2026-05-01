@@ -61,4 +61,11 @@ def export_refs_to_out_files(all_refs, section_name=None):
     # Contexto y referencias en formato markdown
     content_md = "\n".join(context_lines) + "\n\n" + references_md
 
-    
+    # Formato rST para las referencias
+    content_rst = format_references(all_refs, rst_format=True)
+
+    # 3. Guardar archivos
+    save_file(full_path_md, content_md)
+    save_file(full_path_rst, content_rst)
+
+    print(f"📦 Sección exportada a: {full_path_md} y {full_path_rst}")
