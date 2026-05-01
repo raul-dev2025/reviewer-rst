@@ -44,7 +44,7 @@ def export_refs_to_out_files(all_refs, section_name=None):
     safe_section_name = "".join([c if c.isalnum() else "_" for c in section_name]).strip("_")
 
     file_name_md = f"out_{safe_section_name}.md"
-    file_name_rst = f"out_{safe_section_name}_rST.md"
+    file_name_rst = f"out_{safe_section_name}.rst"
 
     full_path_md = os.path.join(output_path, file_name_md)
     full_path_rst = os.path.join(output_path, file_name_rst)
