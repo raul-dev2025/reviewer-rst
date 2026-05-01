@@ -2,7 +2,6 @@
 
 import os
 
-
 def group_refs_blocks(lines):
     """
     Maquina de estado para capturar bloques de referencias.
@@ -56,12 +55,14 @@ def extract_references_context(context_input):
   """
   Extrae el contexto para las referencias desde el documento original.
   """
-  import os
-
+  from file_manager import read_file
+  
   context_lines = []
   if not context_input:
-    #
-    default_path = "/tmp/findOut/input_docs.md"
+    # Podriamos exportar en file_manager el archivo procesado
+    # para evitar tener que hacer algo asi de nuevo:
+    file_args = [arg for arg in sys.argv[1:] if arg != "--seek-refs"]
+    default_path = read_file(file_args)
     if os.path.exists(default_path):
       try:
         with open(default_path, 'r', encoding='utf-8') as f:
