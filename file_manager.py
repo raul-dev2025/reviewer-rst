@@ -49,8 +49,8 @@ def export_refs_to_out_files(all_refs, section_name=None):
     full_path_md = os.path.join(output_path, file_name_md)
     full_path_rst = os.path.join(output_path, file_name_rst)
 
-  if not os.path.exists(output_path):
-    os.makedirs(output_path)
+    # 1. Contenido Markdown
+    from reference_processor import extract_references_context, format_references
 
   for i, block in enumerate(all_blocks, start=1):
     file_name = f"out{i}.md"
