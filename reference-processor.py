@@ -63,7 +63,7 @@ def extract_references_context(context_input):
   for line in context_input:
       # Habra que iterar la busqueda de la regex
     full_text = ''.join(context_input)
-    matches = list(re.finditer(r'(?:^|\s+)\[#?[a-zA-Z0-9]+\]'), full_text)
+    matches = list(re.finditer(r'(?:^|\s+)\[#?[a-zA-Z0-9]+\]', full_text))
 
     # buscamos un  mecanismo que guarde el contexto
     preceding_text = line[:start_idx].strip()
