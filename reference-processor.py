@@ -55,8 +55,13 @@ def extract_references_context(context_input):
   """
   Extrae el contexto para las referencias desde el documento original.
   """
+  import re
 
   context_lines = []
+
+  # La Regex que busca las referencias
+  re.finditer(r'(?:^|\s+)\[#?[a-zA-Z0-9]+\]')
+
 
 
   return context_lines
