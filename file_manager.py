@@ -36,6 +36,9 @@ def export_refs_to_out_files(all_refs, section_name=None):
     """
     Orquesta la generación y escritura de los archivos de salida divididos por formato.
     """
+    # Importa las funciones necesarias desde el modulo de referencias
+    from reference_processor import extract_references_context, format_references
+
     output_path = "/tmp/findOut"
     if not os.path.exists(output_path):
         os.makedirs(output_path)
@@ -48,11 +51,8 @@ def export_refs_to_out_files(all_refs, section_name=None):
     full_path_md = os.path.join(output_path, file_name_md)
     full_path_rst = os.path.join(output_path, file_name_rst)
 
-    # Importa las funciones necesarias desde el modulo de referencias
-    from reference_processor import extract_references_context, format_references
-
     # 1. Guarda el contexto
-    context_lines = extract_references_context([])
+    context_lines = extract_references_context(all_refs)
 
     # 2. Formato para las referencias Markdown
     references_md = format_references(all_refs, rst_format=False)
