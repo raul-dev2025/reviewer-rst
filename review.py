@@ -14,6 +14,8 @@ from processor import (
     process_rst_blocks
 )
 
+
+
 def main():
     if len(sys.argv) < 2:
         return
@@ -28,6 +30,7 @@ def main():
         filename_base = os.path.splitext(os.path.basename(file_path))[0]
         
         if seek_refs_mode:
+            from reference_processor import group_refs_blocks
             # No creamos backup (.bak) porque no modificamos la fuente
             ref_blocks = process_rst_blocks(lines, seek_refs=True)
             original_blocks = group_refs_blocks(ref_blocks)
