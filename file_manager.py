@@ -54,8 +54,8 @@ def export_refs_to_out_files(all_refs, section_name=None):
     # 1. Guarda el contexto
     context_lines = extract_references_context(all_refs)
 
-    # 2. Formato para las referencias Markdown
-    references_md = format_references(all_refs, rst_format=False)
+    # 2. Formato rST para las referencias
+    content_rst = format_references(all_refs, rst_format=True)
 
     # Contexto y referencias en formato markdown
     content_md = "\n".join(context_lines) + "\n\n" + references_md
