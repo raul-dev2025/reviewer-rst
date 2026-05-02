@@ -60,32 +60,33 @@ def extract_references_context(context_input):
   context_lines = []
 
 
-  full_text = ''.join(context_input)
-  matches = list(re.finditer(r'(?:^|\s+)\[#?[a-zA-Z0-9]+\]', full_text))
-  # buscamos un  mecanismo que guarde el contexto
+  if context_input:
+    full_text = ''.join(context_input)
+    matches = list(re.finditer(r'(?:^|\s+)\[#?[a-zA-Z0-9]+\]', full_text))
+    # buscamos un  mecanismo que guarde el contexto
 
-  for match in matches:
-    start_idx = match.start()
+    for match in matches:
+      start_idx = match.start()
 
-    # texto previo de la referencia
-    preceding_text = line[:start_idx].strip()
+      # texto previo de la referencia
+      preceding_text = line[:start_idx].strip()
 
-    # estrae contexto en todo el documento
-    reference_text = match.group().strip()
+      # estrae contexto en todo el documento
+      reference_text = match.group().strip()
 
-    words = preceding_text.split()
-    if len(words) >= 2:
-      context_snippet = " ".join(words[-2:])
-    elif len(words) == 1:
-      context_snippet = words[0]
-    else:
-      context_snippet = ""
+      words = preceding_text.split()
+      if len(words) >= 2:
+        context_snippet = " ".join(words[-2:])
+      elif len(words) == 1:
+        context_snippet = words[0]
+      else:
+        context_snippet = ""
 
-    # Guarda el cxt asociado a la ref.
-    context_lines.append({
-      "reference": reference_text,
-      "context": context_snippet
-    })
+      # Guarda el cxt asociado a la ref.
+      context_lines.append({
+        "reference": reference_text,
+        "context": context_snippet
+      })
 
 
   return context_lines
