@@ -55,34 +55,9 @@ def extract_references_context(context_input):
   """
   Extrae el contexto para las referencias desde el documento original.
   """
-  from file_manager import read_file
-  
+
   context_lines = []
-  if not context_input:
-    # Podriamos exportar en file_manager el archivo procesado
-    # para evitar tener que hacer algo asi de nuevo:
-    file_args = [arg for arg in sys.argv[1:] if arg != "--seek-refs"]
-    default_path = read_file(file_args)
-    if os.path.exists(default_path):
-      try:
-        with open(default_path, 'r', encoding='utf-8') as f:
-          lines = f.readlines()
-          for line in lines:
-            context_input.append(line)
-      except Exception as e:
-        print(f"️⚠️ No se pudo leer el archivo de contexto: {e}")
-        return context_lines
-  else:
-    lines_to_process = context_input
 
-  #  Procesado de las lineas de contexto recibido
-  for line in context_input:
-    striped_line = line.rstrip()
-    if striped_line not in context_lines:
-      context_lines.append(striped_line)
-
-  if context_lines and not context_lines[-1].endswith('\n'):
-    context_lines[-1] += '\n'
 
   return context_lines
 
