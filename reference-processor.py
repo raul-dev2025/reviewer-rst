@@ -62,6 +62,11 @@ def extract_references_context(context_input):
   # La Regex que busca las referencias
   re.finditer(r'(?:^|\s+)\[#?[a-zA-Z0-9]+\]')
 
+  # buscamos un  mecanismo que guarde el contexto
+  preceding_text = line[:start_idx].strip()
+
+  words = preceding_text.split()
+
 
 
   return context_lines
