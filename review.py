@@ -30,8 +30,9 @@ def main():
         if seek_refs_mode:
             # No creamos backup (.bak) porque no modificamos la fuente
             ref_blocks = process_rst_blocks(lines, seek_refs=True)
-            export_refs_to_out_files(ref_blocks)
-            print(f"🎯 Referencias extraídas quirúrgicamente de: {file_path}")
+            original_blocks = group_refs_blocks(ref_blocks)
+            export_refs_to_out_files(ref_blocks, None, original_blocks)
+            print(f"🎯 Referencias extraídas de: {file_path}")
             
         else:
             # --- FLUJO ESTÁNDAR DE REVISIÓN ---
