@@ -61,9 +61,13 @@ def export_refs_to_out_files(all_refs, section_name=None):
     content_md_lines = "\n".join([f"{item['reference']} - Contexto: {item['context']}" for item in context_lines])
     content_md = "\n".join(content_md_lines)
 
-    # 
+    # 4. Añade la sección de referencias
+    if original_blocks:
+      content_md += "\n\n--- Bloque de Referencias Original (Comparativa) ---\n"
+      for block in original_blocks:
+        content_md += "".join(block)
 
-    # 4. Guardar archivos
+    # 5. Guardar archivos
     save_file(full_path_md, content_md)
     save_file(full_path_rst, content_rst)
 
