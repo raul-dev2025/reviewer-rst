@@ -57,8 +57,9 @@ def export_refs_to_out_files(all_refs, section_name=None):
     # 2. Formato rST para las referencias
     content_rst = format_references(all_refs, rst_format=True)
 
-    # Contexto y referencias en formato markdown
-    content_md = "\n".join(context_lines) + "\n\n" + references_md
+    # 3. Contexto y referencias en formato markdown
+    content_md_lines = "\n".join([f"{item['reference']} - Contexto: {item['context']}" for item in context_lines])
+    content_md = "\n".join(content_md_lines)
 
     # Formato rST para las referencias
     content_rst = format_references(all_refs, rst_format=True)
