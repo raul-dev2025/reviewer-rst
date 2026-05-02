@@ -69,7 +69,7 @@ def extract_references_context(context_input):
       start_idx = match.start()
 
       # texto previo de la referencia
-      preceding_text = line[:start_idx].strip()
+      preceding_text = full_text[:start_idx].strip()
 
       # estrae contexto en todo el documento
       reference_text = match.group().strip()
