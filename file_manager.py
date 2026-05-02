@@ -32,7 +32,7 @@ def save_file(file_path, content):
     with open(file_path, 'w', encoding='utf-8') as f:
         f.write(content)
 
-def export_refs_to_out_files(all_refs, section_name=None):
+def export_refs_to_out_files(all_refs, section_name=None, original_blocks=None):
     """
     Orquesta la generación y escritura de los archivos de salida divididos por formato.
     """
