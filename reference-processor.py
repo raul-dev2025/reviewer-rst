@@ -59,13 +59,21 @@ def extract_references_context(context_input):
 
   context_lines = []
 
-  # La Regex que busca las referencias
-  re.finditer(r'(?:^|\s+)\[#?[a-zA-Z0-9]+\]')
+  # Habra que iterar la busqueda de la regex
+  matches = list(re.finditer(r'(?:^|\s+)\[#?[a-zA-Z0-9]+\]'))
 
   # buscamos un  mecanismo que guarde el contexto
   preceding_text = line[:start_idx].strip()
 
+  # Solo se guardaran las dos palabras previas
   words = preceding_text.split()
+  if len(words) >= 2:
+    context_snippet = " ".join(words[-2:])
+  elif len(words) == 1:
+    context_snippet = words[0]
+  else:
+    context_snippet = ""
+
 
 
 
