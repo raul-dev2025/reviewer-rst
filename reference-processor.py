@@ -59,16 +59,20 @@ def extract_references_context(context_input):
 
   context_lines = []
 
-  # Iteramos con el patron de busqueda, sobre cada linea
-  for line in context_input:
-      # Habra que iterar la busqueda de la regex
-    full_text = ''.join(context_input)
-    matches = list(re.finditer(r'(?:^|\s+)\[#?[a-zA-Z0-9]+\]', full_text))
 
-    # buscamos un  mecanismo que guarde el contexto
+  full_text = ''.join(context_input)
+  matches = list(re.finditer(r'(?:^|\s+)\[#?[a-zA-Z0-9]+\]', full_text))
+  # buscamos un  mecanismo que guarde el contexto
+
+  for match in matches:
+    start_idx = match.start()
+
+    # texto previo de la referencia
     preceding_text = line[:start_idx].strip()
 
-    # Solo se guardaran las dos palabras previas
+    # estrae contexto en todo el documento
+    reference_text = match.group().strip()
+
     words = preceding_text.split()
     if len(words) >= 2:
       context_snippet = " ".join(words[-2:])
@@ -77,7 +81,11 @@ def extract_references_context(context_input):
     else:
       context_snippet = ""
 
-
+    # Guarda el cxt asociado a la ref.
+    context_lines.append({
+      "reference": reference_text,
+      "context": context_snippet
+    })
 
 
   return context_lines
