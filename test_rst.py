@@ -421,7 +421,7 @@ class TestRSTRefactor(unittest.TestCase):
     """
     Verifica el formato correcto de referencias en un documento.
     """
-    from reference_processor import extract_references_context, group_refs_blocks
+    from reference_processor import group_refs_blocks
 
     # 1. Simula una seccion de referencias
     sample_lines = [
@@ -443,26 +443,29 @@ class TestRSTRefactor(unittest.TestCase):
     for idx, b in enumerate(blocks):
       print(f"Bloque {idx + 1}: {len(b)} lineas")
 
-
-    # 5. Probar extract_references_context()
-    print("\n--- Probando extract_references_context() ---")
-    contexts = extract_references_context(sample_lines)
-    for c in contexts:
-      print(c)
-
-
   def test_format_references(all_refs, rst_format=False):
     """
     Simula referencias encontradas en el documento, y verifica el formato.
     """
-    from reference_processor import format_references
+    from reference_processor import format_references, extract_references_context
     # 3. Simular referencias encontradas
-    sample_refs = ["#f1", "[#f2]", "`f3 <#f3>`_", "f5"]
+    sample_refs = ["texto 1 de contexto #f1",
+                   "contexto de texto 2 [#f2]",
+                   "otro contexto `f3 <#f3>`_",
+                   "el ultimo contexto f5"
+                  ]
 
     # 4. Probar format_references()
     print("\n--- Probando format_references() a rST ---")
     formatted_rst = format_references(sample_refs, rst_format=True)
     print(formatted_rst)
+
+        # 5. Probar extract_references_context()
+    print("\n--- Probando extract_references_context() ---")
+    contexts = extract_references_context(sample_lines)
+    for c in contexts:
+      print(c)
+
 
 
 
