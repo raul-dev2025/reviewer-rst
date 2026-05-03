@@ -104,7 +104,8 @@ def format_references(all_refs, rst_format=False):
 
   for ref in all_refs:
     if rst_format:
-      clean_ref = ref.strip('[]')
+      match = re.search(r'(?:#?[a-zA-Z0-9]+|`[^`]+<#?[a-zA-Z0-9]+>`__)', ref)
+      clean_ref = match.group(0) if match else ref.strip('[]')
       formatted_output.append(f"..  [{clean_ref}]")
     else:
       formatted_output.append(f"- {ref}")
