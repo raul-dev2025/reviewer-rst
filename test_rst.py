@@ -417,8 +417,29 @@ class TestRSTRefactor(unittest.TestCase):
     self.assertIn("[#f1]", blocks[0], "El bloque debe contener el identificador de la nota.")
 
 
+  def test_format_references():
+    """
+    Verifica el formato correcto de referencias en un documento.
+    """
+    from reference_processor import extract_references_context, format_references, group_refs_blocks
 
+    sample_lines = [
+      "Referencias",
+      "-----------",
+      "",
+      "[#f1] Almesberger, Werner; \"Booting Linux: The History and the Future\"",
+      "    http://www.almesberger.net/cv/papers/ols2k-9.ps.gz",
+      "[#f2] newlib package (experimental), with initrd example",
+      "    https://www.sourceware.org/newlib/",
+      "[#f3] util-linux: Miscellaneous utilities for Linux",
+      "    https://www.kernel.org/pub/linux/utils/util-linux/",
+      "   [f5] situando en memoria, o trampa de arranque -bootstrapping."
+    ]
 
+    # 2. Probar group_refs_blocks, maquina de estado
+    # 3. Simular referencias encontradas
+    # 4. Probar format_references()
+    # 5. Probar extract_references_context()
 
 
 
