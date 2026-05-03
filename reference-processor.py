@@ -100,5 +100,13 @@ def format_references(all_refs, rst_format=False):
 
   formatted_output = []
 
+  for ref in all_refs:
+    if rst_format:
+      formatted_output.append(f"..  [{ref}]")
+    else:
+      formatted_output.append(f"- {ref}")
+
+
+
   return "\n".join(formatted_output)
 
