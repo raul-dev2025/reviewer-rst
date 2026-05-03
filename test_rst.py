@@ -416,7 +416,6 @@ class TestRSTRefactor(unittest.TestCase):
     self.assertTrue(len(blocks) > 0, "Debería haberse detectado el bloque de referencia.")
     self.assertIn("[#f1]", blocks[0], "El bloque debe contener el identificador de la nota.")
 
-
   def test_group_refs_blocks(lines):
     """
     Verifica el formato correcto de referencias en un documento.
@@ -449,11 +448,7 @@ class TestRSTRefactor(unittest.TestCase):
     """
     from reference_processor import format_references, extract_references_context
     # 3. Simular referencias encontradas
-    sample_refs = ["texto 1 de contexto #f1",
-                   "contexto de texto 2 [#f2]",
-                   "otro contexto `f3 <#f3>`_",
-                   "el ultimo contexto f5"
-                  ]
+    sample_refs = ["#f1", "[#f2]", "`f3 <#f3>`_", "f5"]
 
     # 4. Probar format_references()
     print("\n--- Probando format_references() a rST ---")
