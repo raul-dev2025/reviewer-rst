@@ -97,7 +97,6 @@ def format_references(all_refs, rst_format=False):
   """
   Da formato rST a las referencias encontradas en el documento.
   """
-  import re
 
   if not all_refs:
     return  ""
@@ -105,12 +104,11 @@ def format_references(all_refs, rst_format=False):
   formatted_output = []
 
   for ref in all_refs:
+    clean_ref = ref.strip('[]')
     if rst_format:
-      match = re.search(r'(?:#?[a-zA-Z0-9]+|`[^`]+<#?[a-zA-Z0-9]+>`__)', ref)
-      clean_ref = match.group(0) if match else ref.strip('[]')
       formatted_output.append(f"..  [{clean_ref}]")
     else:
-      formatted_output.append(f"- {ref}")
+      formatted_output.append(f"- {clean_ref}")
 
 
 
