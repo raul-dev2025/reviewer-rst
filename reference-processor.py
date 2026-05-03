@@ -92,4 +92,13 @@ def extract_references_context(context_input):
   return context_lines
 
 def format_references(all_refs, rst_format=False):
+  """
+  Da formato rST a las referencias encontradas en el documento.
+  """
+  if not all_refs:
+    return  ""
+
+  formatted_output = []
+
+  return "\n".join(formatted_output)
 
