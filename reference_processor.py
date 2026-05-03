@@ -104,7 +104,8 @@ def format_references(all_refs, rst_format=False):
 
   for ref in all_refs:
     if rst_format:
-      formatted_output.append(f"..  [{ref}]")
+      clean_ref = ref.strip('[]')
+      formatted_output.append(f"..  [{clean_ref}]")
     else:
       formatted_output.append(f"- {ref}")
 
