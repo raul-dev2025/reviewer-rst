@@ -97,6 +97,8 @@ def format_references(all_refs, rst_format=False):
   """
   Da formato rST a las referencias encontradas en el documento.
   """
+  import re
+
   if not all_refs:
     return  ""
 
