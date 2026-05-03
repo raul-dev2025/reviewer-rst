@@ -58,7 +58,7 @@ def export_refs_to_out_files(all_refs, section_name=None, original_blocks=None):
     content_rst = format_references(all_refs, rst_format=True)
 
     # 3. Contexto y referencias en formato markdown
-    content_md_lines = "\n".join([f"{item['reference']} - Contexto: {item['context']}" for item in context_lines])
+    content_md_lines = [f"{item['reference']} - Contexto: {item['context']}" for item in context_lines]
     content_md = "\n".join(content_md_lines)
 
     # 4. Añade la sección de referencias
