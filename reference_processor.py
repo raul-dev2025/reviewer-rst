@@ -55,7 +55,8 @@ def group_refs_blocks(lines):
 
 def extract_references_context(context_input):
   """
-  Extrae el contexto para las referencias desde el documento original.
+  Extrae el contexto para las referencias desde el texto del documento.
+  Busca la referencia en el texto y las dos palabras previas como contexto.
   """
   import re
 
@@ -63,18 +64,16 @@ def extract_references_context(context_input):
 
 
   if context_input:
-    full_text = ''.join(context_input)
-    matches = list(re.finditer(r'(?:^|\s+)(?:\[#?[a-zA-Z0-9]+\]|`[^`]+<#?[a-zA-Z0-9]+>`__)', full_text))
+    full_text = ''.join(context_input) if isinstance(context_input, list) else context_input
+    matches = list(re.finditer(r'(?:^|\s+)(?:\[#?[a-zA-Z0-9]+\]|`[^`]+<#?[a-zA-Z0-9]+>`__|\(?[a-zA-Z0-9]+\)?)', full_text))
     # buscamos un  mecanismo que guarde el contexto
 
     for match in matches:
       start_idx = match.start()
+      reference_text = match.group().strip()
 
       # texto previo de la referencia
       preceding_text = full_text[:start_idx].strip()
-
-      # estrae contexto en todo el documento
-      reference_text = match.group().strip()
 
       words = preceding_text.split()
       if len(words) >= 2:
@@ -82,13 +81,14 @@ def extract_references_context(context_input):
       elif len(words) == 1:
         context_snippet = words[0]
       else:
-        context_snippet = ""
+        context_snippet = "indent[3]"
 
-      # Guarda el cxt asociado a la ref.
-      context_lines.append({
+      # Filtra, y guarda el cxt asociado a la ref.
+      if reference_text:
+        context_lines.append({
         "reference": reference_text,
         "context": context_snippet
-      })
+        })
 
 
   return context_lines
