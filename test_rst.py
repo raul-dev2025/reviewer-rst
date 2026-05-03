@@ -423,6 +423,7 @@ class TestRSTRefactor(unittest.TestCase):
     """
     from reference_processor import extract_references_context, format_references, group_refs_blocks
 
+    # 1. Simula una seccion de referencias
     sample_lines = [
       "Referencias",
       "-----------",
@@ -437,7 +438,18 @@ class TestRSTRefactor(unittest.TestCase):
     ]
 
     # 2. Probar group_refs_blocks, maquina de estado
+    print("--- Probando group_refs_blocks() ---")
+    blocks = group_refs_blocks(sample_lines)
+    for idx, b in enumerate(blocks):
+      print(f"Bloque {idx + 1}: {len(b)} lineas")
+
+
     # 5. Probar extract_references_context()
+    print("\n--- Probando extract_references_context() ---")
+    contexts = extract_references_context(sample_lines)
+    for c in contexts:
+      print(c)
+
 
   def test_format_references():
     """
@@ -447,6 +459,10 @@ class TestRSTRefactor(unittest.TestCase):
     sample_refs = ["#f1", "#f2", "#f3", "f5"]
 
     # 4. Probar format_references()
+    print("\n--- Probando format_references() a rST ---")
+    formatted_rst = format_references(sample_refs, rst_format=True)
+    print(formatted_rst)
+
 
 
 
