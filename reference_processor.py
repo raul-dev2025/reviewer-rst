@@ -37,6 +37,8 @@ def group_refs_blocks(lines):
                 elif is_structural_break(next_line, seek_refs=True):
                   current_block.append(next_line)
                   i += 1
+                elif next_line.strip().startswith("-") and len(next_line.strip()) >= 3:
+                  break
                 else:
                   if not next_line.strip().startswith(".. [") and not next_line.strip().startswith(":"):
                     raise StructuralIntegrityError(i + 1, "Falta indentación en bloque de referencia")
@@ -62,7 +64,7 @@ def extract_references_context(context_input):
 
   if context_input:
     full_text = ''.join(context_input)
-    matches = list(re.finditer(r'(?:^|\s+)\[#?[a-zA-Z0-9]+\]', full_text))
+    matches = list(re.finditer(r'(?:^|\s+)(?:\[#?[a-zA-Z0-9]+\]|`[^`]+<#?[a-zA-Z0-9]+>`__)', full_text))
     # buscamos un  mecanismo que guarde el contexto
 
     for match in matches:
