@@ -462,7 +462,7 @@ class TestRSTRefactor(unittest.TestCase):
 
         # 5. Probar extract_references_context()
     print("\n--- Probando extract_references_context() ---")
-    contexts = extract_references_context(sample_lines)
+    contexts = extract_references_context(sample_refs)
     for c in contexts:
       print(c)
 
