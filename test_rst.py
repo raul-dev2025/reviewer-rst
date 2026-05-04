@@ -455,13 +455,24 @@ class TestRSTRefactor(unittest.TestCase):
     formatted_rst = format_references(sample_refs, rst_format=True)
     print(formatted_rst)
 
-        # 5. Probar extract_references_context()
+  def test_extract_references_context(self):
+    """
+    Valida la extraccion del contexto asociado a la referencia.
+    """
+    from reference_processor import extract_references_context
+
+    sample_refs = ["texto 1 de contexto #f1",
+                   "contexto de texto 2 [#f2]",
+                   "otro contexto `f3 <#f3>`_",
+                   "el ultimo contexto f5"
+                  ]
+
+    # 5. Probar extract_references_context()
     print("\n--- Probando extract_references_context() ---")
     contexts = extract_references_context(sample_refs)
     for c in contexts:
-      print(c)
-
-
+      print(f"ref : {c['reference']}, context: {c['context']}")
+    
 
 
 
