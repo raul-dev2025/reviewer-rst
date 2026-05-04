@@ -416,7 +416,7 @@ class TestRSTRefactor(unittest.TestCase):
     self.assertTrue(len(blocks) > 0, "Debería haberse detectado el bloque de referencia.")
     self.assertIn("[#f1]", blocks[0], "El bloque debe contener el identificador de la nota.")
 
-  def test_group_refs_blocks(lines):
+  def test_group_refs_blocks(self):
     """
     Verifica el formato correcto de referencias en un documento.
     """
@@ -442,11 +442,11 @@ class TestRSTRefactor(unittest.TestCase):
     for idx, b in enumerate(blocks):
       print(f"Bloque {idx + 1}: {len(b)} lineas")
 
-  def test_format_references(all_refs, rst_format=False):
+  def test_format_references(self):
     """
     Simula referencias encontradas en el documento, y verifica el formato.
     """
-    from reference_processor import format_references, extract_references_context
+    from reference_processor import format_references
     # 3. Simular referencias encontradas
     sample_refs = ["#f1", "[#f2]", "`f3 <#f3>`_", "f5"]
 
@@ -470,6 +470,7 @@ class TestRSTRefactor(unittest.TestCase):
     # 5. Probar extract_references_context()
     print("\n--- Probando extract_references_context() ---")
     contexts = extract_references_context(sample_refs)
+
     for c in contexts:
       print(f"ref : {c['reference']}, context: {c['context']}")
     
