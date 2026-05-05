@@ -63,15 +63,12 @@ def extract_references_context(context_input):
   Extrae el contexto para las referencias desde el texto del documento.
   Busca la referencia en el texto y las dos palabras previas como contexto.
   """
-  import re
-
   context_lines = []
 
 
   if context_input:
-    full_text = ''.join(context_input) if isinstance(context_input, list) else context_input
-    matches = list(re.finditer(r'(?:^|\s+)(?:\[#?[a-zA-Z0-9]+\]|`[^`]+<#?[a-zA-Z0-9]+>`__|\(?[a-zA-Z0-9]+\)?)', full_text))
-    # buscamos un  mecanismo que guarde el contexto
+    full_text = ' '.join(context_input) if isinstance(context_input, list) else context_input
+    matches = list(reference_pattern.finditer(full_text))
 
     for match in matches:
       start_idx = match.start()
@@ -81,12 +78,13 @@ def extract_references_context(context_input):
       preceding_text = full_text[:start_idx].strip()
 
       words = preceding_text.split()
-      if len(words) >= 2:
+
+      if len(words) == 0:
+        context_snippet = "seccion de referencias"
+      elif len(words) >= 2:
         context_snippet = " ".join(words[-2:])
-      elif len(words) == 1:
-        context_snippet = words[0]
       else:
-        context_snippet = "indent[3]"
+        context_snippet = words[0]
 
       # Filtra, y guarda el cxt asociado a la ref.
       if reference_text:
