@@ -1,6 +1,6 @@
-============================================================
-Procedimiento de Integración Quirúrgica de Funciones Python
-============================================================
+================================================
+Procedimiento de Integración de Funciones Python
+================================================
 
 :Fecha: 2026-04-22
 :Autor: Sistema de Gestión de Infraestructura
@@ -12,11 +12,11 @@ Introducción
 
 Este documento describe el protocolo utilizado para la sustitución atómica de una función, en un archivo de código fuente. El objetivo es integrar cambios de colaboradores externos, garantizando la preservación de la sangría y el contexto del archivo original.
 
+
 Consideraciones Previas
 =======================
 
 El uso de ``git apply`` puede resultar demasiado estricto cuando las coordenadas de línea en el parche no coinciden con el archivo de destino. Por ello, se opta por el uso de **GNU Patch**, que permite el uso de *fuzzing* para localizar el bloque de código por contexto.
-
 
 
 Pasos del Procedimiento
@@ -60,7 +60,6 @@ Parámetros utilizados:
     * ``--fuzz=3``: Permite que el algoritmo busque el bloque de texto en posiciones distintas a las indicadas en el encabezado del parche.
 
 
-
 Validación Resultante
 =====================
 
@@ -71,6 +70,7 @@ Una vez aplicado, el sistema debe verificar la integración mediante el historia
    git diff soure_file_name
 
 La salida debe mostrar exclusivamente la sustitución de la lógica antigua por la nueva, manteniendo los encabezados (``imports``) y las funciones adyacentes totalmente intactas.
+
 
 Referencias de Infraestructura
 ==============================
