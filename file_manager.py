@@ -72,3 +72,29 @@ def export_refs_to_out_files(all_refs, section_name=None, original_blocks=None):
     save_file(full_path_rst, content_rst)
 
     print(f"📦 Sección exportada a: {full_path_md} y {full_path_rst}")
+
+def prepare_file(ref_list):
+  """
+  Prepara la ruta y el contenido de los bloques de referencias para guardarlos en disco.
+  """
+
+  content_list = []
+
+  for b in ref_list:
+    for line in b:
+      content_list.append(line)
+
+  output_dir = "/tmp/findOut"
+  os.makedirs(output_dir, exist_ok=True)
+
+  if content_list:
+    name = (content_list[0]).strip().lower()
+    file_name = f"{name}.rst"
+    file_path = os.path.join(output_dir, file_name)
+
+    content = "\n".join(content_list)
+
+    save_file(file_path, content)
+    print(f"Archivo preparado y guardado en: {file_path}")
+
+    return file_path
