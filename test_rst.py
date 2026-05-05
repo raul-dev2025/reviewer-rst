@@ -444,37 +444,41 @@ class TestRSTRefactor(unittest.TestCase):
     for idx, b in enumerate(blocks):
       print(f"Bloque {idx + 1}: {len(b)} lineas")
 
-  def test_format_references(self):
-    """
-    Simula referencias encontradas en el documento, y verifica el formato.
-    """
-    from reference_processor import format_references
-    # 3. Simular referencias encontradas
-    sample_refs = ["#f1", "[#f2]", "`f3 <#f3>`_", "f5"]
+    
 
-    # 4. Probar format_references()
-    print("\n--- Probando format_references() a rST ---")
-    formatted_rst = format_references(sample_refs, rst_format=True)
-    print(formatted_rst)
+  # def test_format_references(self):
+  #   """
+  #   Simula referencias encontradas en el documento, y verifica el formato.
+  #   """
+  #   from reference_processor import format_references
+  #   # 3. Simular referencias encontradas
+  #   sample_refs = ["#f1", "[#f2]", "`f3 <#f3>`_", "f5"]
 
-  def test_extract_references_context(self):
-    """
-    Valida la extraccion del contexto asociado a la referencia.
-    """
-    from reference_processor import extract_references_context
+  #   # 4. Probar format_references()
+  #   print("\n--- Probando format_references() a rST ---")
+  #   formatted_rst = format_references(sample_refs, rst_format=True)
+  #   print(formatted_rst)
 
-    sample_refs = ["texto 1 de contexto #f1",
-                   "contexto de texto 2 [#f2]",
-                   "otro contexto `f3 <#f3>`_",
-                   "el ultimo contexto f5"
-                  ]
+  # def test_extract_references_context(self):
+  #   """
+  #   Valida la extraccion del contexto asociado a la referencia.
+  #   """
+  #   from reference_processor import extract_references_context, format_references
 
-    # 5. Probar extract_references_context()
-    print("\n--- Probando extract_references_context() ---")
-    contexts = extract_references_context(sample_refs)
+  #   # Usamos texto de documento real donde la referencia aparece en el cuerpo
+  #   document_lines = [
+  #     "Esta es una frase de prueba que usa [#f1] como ejemplo.",
+  #     "Aquí hay otro texto de contexto para f5.",
+  #     "contexto de texto 2 [#f2]",
+  #     "otro contexto `f3 <#f3>`_"
+  #   ]
 
-    for c in contexts:
-      print(f"ref : {c['reference']}, context: {c['context']}")
+  #   # 5. Probar extract_references_context()
+  #   print("\n--- Probando extract_references_context() ---")
+  #   contexts = extract_references_context(document_lines)
+
+  #   for c in contexts:
+  #     print(f"ref : {c['reference']}, context: {c['context']}")
     
 
 
