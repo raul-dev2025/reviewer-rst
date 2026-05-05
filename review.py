@@ -31,9 +31,13 @@ def main():
         
         if seek_refs_mode:
             from reference_processor import group_refs_blocks
+
             # No creamos backup (.bak) porque no modificamos la fuente
             ref_blocks = process_rst_blocks(lines, seek_refs=True)
             original_blocks = group_refs_blocks(ref_blocks)
+
+            context_lines = extract_references_context(ref_blocks)
+
             export_refs_to_out_files(ref_blocks, None, original_blocks)
             print(f"🎯 Referencias extraídas de: {file_path}")
             
