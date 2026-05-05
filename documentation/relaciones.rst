@@ -50,8 +50,22 @@ A continuación se detalla el flujo de dependencias entre los módulos:
    * - ``tests_integration.py``
      - ``review.py``, ``file_manager.py``
 
-Plan de Acción para la Centralización
-=====================================
+Descripción de Modificaciones
+=============================
 
-1. **Centralización de Imports**: Mover todas las importaciones internas al ámbito global (cabecera).
-2. **Modularidad**: Preparar la inicialización en ``review.py``.
+1. **Centralización de Dependencias**: 
+   Se han movido todas las importaciones de lógica (``processor``, ``cleaner``, ``formatter``, etc.) al ámbito global del script. Esto elimina la necesidad de realizar importaciones dentro de funciones, resolviendo los conflictos de visibilidad reportados en los tests.
+
+2. **Estandarización de Imports**:
+   Se utiliza ahora una carga explícita de módulos completos en lugar de importaciones parciales de funciones, facilitando el mantenimiento de la integridad de las clases y atributos.
+
+3. **Nueva Función de Inicialización**:
+   Se ha implementado ``init_environment()`` como el primer paso del flujo de ejecución para preparar rutas y parámetros de configuración de forma aislada.
+
+Impacto en la Arquitectura
+==========================
+
+* **Visibilidad**: Los módulos ``reference_processor`` y ``regex`` están ahora disponibles en todo el ciclo de vida del script principal.
+* **Mantenibilidad**: Se facilita la depuración de errores estructurales al no depender de cargas condicionales o perezosas (lazy imports).
+
+-----
