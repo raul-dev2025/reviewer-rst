@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import sys, os
+import sys, os, re
 import file_manager, processor, reference_processor, formatter, cleaner, regex
 
 
