@@ -441,6 +441,7 @@ class TestRSTRefactor(unittest.TestCase):
     # 2. Probar group_refs_blocks, maquina de estado
     print("--- Probando group_refs_blocks() ---")
     blocks = group_refs_blocks(sample_lines)
+
     for idx, b in enumerate(blocks):
       print(f"Bloque {idx + 1}: {len(b)} lineas")
 
@@ -480,6 +481,7 @@ class TestRSTRefactor(unittest.TestCase):
   #   for c in contexts:
   #     print(f"ref : {c['reference']}, context: {c['context']}")
     
+  #   self.assertTrue(len(contexts) > 0, "Debería haberse extraído contexto del documento.")
 
 
 
