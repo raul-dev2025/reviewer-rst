@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
-import os
+import os, re
+from regex import reference_pattern
 
 def group_refs_blocks(lines):
     """
@@ -9,6 +10,8 @@ def group_refs_blocks(lines):
     """
     from  processor import is_structural_break
     from exceptions import StructuralIntegrityError
+    from file_manager import prepare_file
+
     all_ref_blocks = []
     current_block = []
 
@@ -50,6 +53,8 @@ def group_refs_blocks(lines):
 
     if current_block:
         all_ref_blocks.append(current_block)
+
+    prepare_file(all_ref_blocks)
 
     return all_ref_blocks
 
