@@ -107,7 +107,13 @@ def format_references(all_refs, rst_format=False):
   formatted_output = []
 
   for ref in all_refs:
-    clean_ref = ref.strip('[]')
+    if isinstance(ref, dict):
+      ref_val = ref.get('reference', '')
+    else:
+      ref_val = str(ref)
+
+    clean_ref = ref_val.strip('[]').strip()
+
     if rst_format:
       formatted_output.append(f"..  [{clean_ref}]")
     else:
