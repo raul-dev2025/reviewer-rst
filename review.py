@@ -1,20 +1,14 @@
 #!/usr/bin/env python3
+
 import sys, os
-
-# Gestión de archivos
-import file_manager
-
-# Lógica de transformación
-from cleaner import strip_metadata
-from formatter import rst_title_formatter
-from processor import (
-    identify_literal_blocks,
-    extract_literal_blocks,
-    reinject_literal_blocks,
-    process_rst_blocks
-)
+import file_manager, processor, reference_processor, formatter, cleaner, regex
 
 
+def init_environment():
+  """
+  Configura el entorno (rutas, logs) sin imports internos
+  """
+  pass
 
 def main():
     if len(sys.argv) < 2:
