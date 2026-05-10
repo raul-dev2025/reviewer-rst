@@ -170,14 +170,23 @@ def validate_structural_integrity(lines):
     for i, line in enumerate(lines):
         stripped = line.strip()
 
-        if stripped.startswith(".. [") or processor.FOOTNOTE_PATTERN.match(stripped):
+        # Busca el patron que inyecta el linker
+        footnote_patt = getattr(this, 'FOOTNOTE_PATTERN', None)
+
+        # si existe lo utiliza, de lo contrario comprueba el prefijo
+        is_footnote = footnote_patt.match(stripped) if footnote_patt else False
+
+        if stripped.startswith(".. [") or is_footnote:
             in_reference_block = True
         elif not stripped:
             in_reference_block = False
 
         if in_reference_block and i > 0:
             prev_stripped = lines[i-1].strip()
-            if prev_stripped.startswith(".. [") or processor.FOOTNOTE_PATTERN.match(prev_stripped):
+            # Comprueba linea anterior
+            is_prev_footnote = footnote_patt.match(prev_stripped) if footnote_patt else False
+
+            if prev_stripped.startswith(".. [") or is_prev_footnote:
                 if not (line.startswith(" ") or line.startswith("\t") or not line.strip()):
                     if not stripped.startswith(".. [") and not stripped.startswith(":"):
                         raise StructuralIntegrityError(i + 1, "Falta indentación en bloque de referencia")
