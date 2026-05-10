@@ -34,8 +34,8 @@ def is_structural_break(line, seek_refs=False):
     return True
 
   if seek_refs:
-    is_title = re.match(r'^(?:Referencias|Recursos|Agradecimientos|###)', stripped, re.IGNORECASE)
-    is_footnote = re.match(r'^(\.\.\s+)?\[#?[a-zA-Z0-9]+\]', stripped)
+    is_title = processor.ADMIN_SECTION_PATTERN.match(stripped)
+    is_footnote = processor.FOOTNOTE_PATTERN.match(stripped)
 
     return bool(is_title or is_footnote)
 
