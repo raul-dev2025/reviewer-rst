@@ -7,7 +7,7 @@ def init_environment():
   """
   Configura el entorno (rutas, logs) sin imports internos
   """
-  pass
+  linker.bind_dependencies()
 
 def main():
     if len(sys.argv) < 2:
