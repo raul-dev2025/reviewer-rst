@@ -133,7 +133,7 @@ def reinject_literal_blocks(text, blocks_dict):
 def is_legacy_toc(block, documet_titles):
   """
   Detecta un indice residual MarkDown. Se trata de un
-  bloque largo que contine los titulos de seccion.
+  bloque largo que contiene los titulos de seccion.
   """
   if not documet_titles:
     return False
