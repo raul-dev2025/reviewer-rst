@@ -176,6 +176,10 @@ def validate_structural_integrity(lines):
         is_start_of_ref = stripped.startswith(".. [") and "]" in stripped
         is_footnote = footnote_patt.match(stripped) if footnote_patt else False
 
+        if not stripped:
+          in_reference_block = False
+          continue
+
         if is_start_of_ref or is_footnote:
             in_reference_block = True
         elif not stripped:
