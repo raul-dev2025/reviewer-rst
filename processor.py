@@ -181,10 +181,8 @@ def validate_structural_integrity(lines):
           continue
 
         if is_start_of_ref or is_footnote:
-            in_reference_block = True
-        elif not stripped:
-            in_reference_block = False
-            continue
+          in_reference_block = True
+          continue
 
         if in_reference_block and i > 0:
             prev_stripped = lines[i-1].strip()
