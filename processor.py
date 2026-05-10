@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 
-import re
+import re, sys
 import cleaner
+
+this = sys.modules[__name__]
 
 def is_underline(line):
     """Detecta si una línea es un subrayado de título rST."""
