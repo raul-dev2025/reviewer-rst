@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 
-import sys, os, re
-import file_manager, processor, reference_processor, formatter, cleaner, regex
-
+import sys, os
+import linker
 
 def init_environment():
   """
