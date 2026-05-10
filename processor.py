@@ -163,20 +163,19 @@ def validate_structural_integrity(lines):
     al modo seek_refs o a la agrupación de bloques.
     """
     from exceptions import StructuralIntegrityError
-    import re
 
     in_reference_block = False
     for i, line in enumerate(lines):
         stripped = line.strip()
 
-        if stripped.startswith(".. [") or re.match(r'^\[#?[a-zA-Z0-9]+\]', stripped):
+        if stripped.startswith(".. [") or processor.FOOTNOTE_PATTERN.match(stripped):
             in_reference_block = True
         elif not stripped:
             in_reference_block = False
 
         if in_reference_block and i > 0:
             prev_stripped = lines[i-1].strip()
-            if prev_stripped.startswith(".. [") or re.match(r'^\[#?[a-zA-Z0-9]+\]', prev_stripped):
+            if prev_stripped.startswith(".. [") or processor.FOOTNOTE_PATTERN.match(prev_stripped):
                 if not (line.startswith(" ") or line.startswith("\t") or not line.strip()):
                     if not stripped.startswith(".. [") and not stripped.startswith(":"):
                         raise StructuralIntegrityError(i + 1, "Falta indentación en bloque de referencia")
