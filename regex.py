@@ -26,9 +26,8 @@ id_extractor_pattern = re.compile(r'#?([a-zA-Z0-9]+)')
 # Detecta títulos de secciones administrativas (Ignora mayúsculas/minúsculas)
 ADMIN_SECTION_PATTERN = re.compile(r'^(?:Referencias|Recursos|Agradecimientos|###)', re.IGNORECASE)
 
-# Detecta el inicio de una nota al pie rST o marcador de referencia
-# Ejemplos: ".. [#]" , "[#f1]" , "[1]"
+# Detecta el inicio de una nota al pie rST o marcador de referencia: ".. [#]" , "[#f1]" , "[1]"
 FOOTNOTE_PATTERN = re.compile(r'^(\.\.\s+)?\[#?[a-zA-Z0-9]+\]')
 
 # Detecta subrayados rST (mínimo 3 caracteres de: = - ~ ^)
-RST_UNDERLINE_PATTERN = re.compile(r'^[=\-~^]{3,}$')
+RST_UNDERLINE_PATTERN = re.compile(r'^([=\-~^])\1{2,}$')
