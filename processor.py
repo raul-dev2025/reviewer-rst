@@ -184,15 +184,14 @@ def validate_structural_integrity(lines):
           in_reference_block = True
           continue
 
-        if in_reference_block and i > 0:
-            prev_stripped = lines[i-1].strip()
-            # Comprueba linea anterior
-            is_prev_footnote = footnote_patt.match(prev_stripped) if footnote_patt else False
+        if in_reference_block:
+          is_indented = line.startswith(" ") or line.startswith("\t")
 
-            if prev_stripped.startswith(".. [") or is_prev_footnote:
-                if not (line.startswith(" ") or line.startswith("\t") or not line.strip()):
-                    if not stripped.startswith(".. [") and not stripped.startswith(":"):
-                        raise StructuralIntegrityError(i + 1, "Falta indentación en bloque de referencia")
+          if not is_indented:
+            if not stripped.startswith(".. [") and not stripped.startswith(":"):
+              raise StructuralIntegrityError(i + 1, "Falta indentación en bloque de referencia")
+            else:
+              in_reference_block = False
 
 # El maestro de ceremonias
 def process_rst_blocks(lines, seek_refs=False):
