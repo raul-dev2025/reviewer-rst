@@ -20,3 +20,15 @@ reference_pattern = re.compile(
 
 # Patrón estricto para extraer únicamente el identificador (ej. f1, f2, 1) sin corchetes
 id_extractor_pattern = re.compile(r'#?([a-zA-Z0-9]+)')
+
+# --- NUEVOS PATRONES PARA PROCESSOR.PY ---
+
+# Detecta títulos de secciones administrativas (Ignora mayúsculas/minúsculas)
+ADMIN_SECTION_PATTERN = re.compile(r'^(?:Referencias|Recursos|Agradecimientos|###)', re.IGNORECASE)
+
+# Detecta el inicio de una nota al pie rST o marcador de referencia
+# Ejemplos: ".. [#]" , "[#f1]" , "[1]"
+FOOTNOTE_PATTERN = re.compile(r'^(\.\.\s+)?\[#?[a-zA-Z0-9]+\]')
+
+# Detecta subrayados rST (mínimo 3 caracteres de: = - ~ ^)
+RST_UNDERLINE_PATTERN = re.compile(r'^[=\-~^]{3,}$')
