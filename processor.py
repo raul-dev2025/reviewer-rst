@@ -257,7 +257,6 @@ def filter_and_format_blocks(raw_blocks, doc_titles):
   """
   Limpia, filtra y añade la directiva rST (TOC).
   """
-  from cleaner import clean_line_content
 
   blocks = []
   # Subimos la directiva TOC, al almacen de bloques
@@ -265,7 +264,7 @@ def filter_and_format_blocks(raw_blocks, doc_titles):
 
   for rb in raw_blocks:
     # Limpiamos lo que no pudo Pandoc
-    clean_text = clean_line_content(rb)
+    clean_text = cleaner.clean_line_content(rb)
 
     # comprueba si es el indice .md
     if is_legacy_toc(clean_text, doc_titles):
