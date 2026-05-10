@@ -13,6 +13,8 @@ def main():
     if len(sys.argv) < 2:
         return
 
+    init_environment()
+
     # Detectar si el primer argumento es la bandera de referencias
     seek_refs_mode = "--seek-refs" in sys.argv
     file_args = [arg for arg in sys.argv[1:] if arg != "--seek-refs"]
@@ -43,7 +45,7 @@ def main():
             protected_lines, blocks_dict = extract_literal_blocks(lines, ranges)
             
             # 2. LIMPIEZA: Metadata y marcas MD obsoletas
-            clean_text = strip_metadata("\n".join(protected_lines))
+            clean_text = cleaner.strip_metadata("\n".join(protected_lines))
             
             # 3. PROCESAMIENTO: Coordinación de bloques (Mutex automático en False)
             blocks = process_rst_blocks(clean_text.splitlines())
