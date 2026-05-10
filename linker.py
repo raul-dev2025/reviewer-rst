@@ -2,6 +2,19 @@
 import re
 import file_manager, processor, reference_processor, formatter, cleaner, regex
 
+# Definimos los símbolos a nivel de módulo para que existan en el namespace
+read_file = None
+save_file = None
+create_backup = None
+export_refs_to_out_files = None
+process_rst_blocks = None
+identify_literal_blocks = None
+extract_literal_blocks = None
+reinject_literal_blocks = None
+group_refs_blocks = None
+extract_references_context = None
+rst_title_formatter = None
+
 
 def bind_dependencies():
     """
