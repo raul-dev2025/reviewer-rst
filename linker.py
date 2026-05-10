@@ -11,6 +11,7 @@ def bind_dependencies():
     # Inyección de la librería estándar
     cleaner.re = re
     processor.re = re
+    processor.this = processor
     
     # Inyección de constantes de regex en cleaner
     cleaner.PANDOC_LINK_PATTERN = regex.PANDOC_LINK_PATTERN
