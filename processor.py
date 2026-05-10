@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 
 import re
-from cleaner import clean_line_content
+import cleaner
 
 def is_underline(line):
     """Detecta si una línea es un subrayado de título rST."""
     if not line: return False
     stripped = line.strip()
-    return len(stripped) >= 3 and all(c == stripped[0] for c in stripped) and stripped[0] in '=-~^'
+    return bool(processor.RST_UNDERLINE_PATTERN.match(stripped))
 
 def is_potential_title_text(line):
     """Detecta si una línea de texto tiene apariencia de título."""
