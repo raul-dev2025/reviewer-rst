@@ -25,12 +25,9 @@ def main():
         filename_base = os.path.splitext(os.path.basename(file_path))[0]
         
         if seek_refs_mode:
-            from reference_processor import group_refs_blocks
-
             # No creamos backup (.bak) porque no modificamos la fuente
             ref_blocks = linker.process_rst_blocks(lines, seek_refs=True)
             original_blocks = linker.group_refs_blocks(ref_blocks)
-
             context_lines = linker.extract_references_context(ref_blocks)
 
             linker.export_refs_to_out_files(ref_blocks, None, original_blocks)
