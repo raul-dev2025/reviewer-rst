@@ -9,7 +9,7 @@ def is_underline(line):
     """Detecta si una línea es un subrayado de título rST."""
     if not line: return False
     stripped = line.strip()
-    return bool(processor.RST_UNDERLINE_PATTERN.match(stripped))
+    return bool(this.RST_UNDERLINE_PATTERN.match(stripped))
 
 def is_potential_title_text(line):
     """Detecta si una línea de texto tiene apariencia de título."""
