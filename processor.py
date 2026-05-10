@@ -173,13 +173,14 @@ def validate_structural_integrity(lines):
         # Busca el patron que inyecta el linker
         footnote_patt = getattr(this, 'FOOTNOTE_PATTERN', None)
 
-        # si existe lo utiliza, de lo contrario comprueba el prefijo
+        is_start_of_ref = stripped.startswith(".. [") and "]" in stripped
         is_footnote = footnote_patt.match(stripped) if footnote_patt else False
 
-        if stripped.startswith(".. [") or is_footnote:
+        if is_start_of_ref or is_footnote:
             in_reference_block = True
         elif not stripped:
             in_reference_block = False
+            continue
 
         if in_reference_block and i > 0:
             prev_stripped = lines[i-1].strip()
