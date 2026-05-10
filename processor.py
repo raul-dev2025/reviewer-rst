@@ -36,8 +36,8 @@ def is_structural_break(line, seek_refs=False):
     return True
 
   if seek_refs:
-    is_title = processor.ADMIN_SECTION_PATTERN.match(stripped)
-    is_footnote = processor.FOOTNOTE_PATTERN.match(stripped)
+    is_title = this.ADMIN_SECTION_PATTERN.match(stripped)
+    is_footnote = this.FOOTNOTE_PATTERN.match(stripped)
 
     return bool(is_title or is_footnote)
 
