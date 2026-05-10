@@ -5,6 +5,13 @@ import linker, cleaner
 
 class TestRSTRefactor(unittest.TestCase):
 
+  @classmethod
+  def setUpClass(cls):
+    """
+    Configura el entorno (rutas, logs) sin imports internos
+    """
+    linker.bind_dependencies()
+
   def test_is_underline(self):
       """
       Validar la deteccion de subrayados rST.
