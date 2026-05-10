@@ -21,6 +21,10 @@ def bind_dependencies():
     Inyecta las dependencias globales en los submódulos 
     para evitar imports locales redundantes.
     """
+    global read_file, save_file, create_backup, export_refs_to_out_files
+    global process_rst_blocks, identify_literal_blocks, extract_literal_blocks, reinject_literal_blocks
+    global group_refs_blocks, extract_references_context, rst_title_formatter
+
     # Inyección de la librería estándar
     cleaner.re = re
     processor.re = re
