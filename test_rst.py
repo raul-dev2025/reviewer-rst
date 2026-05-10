@@ -122,11 +122,11 @@ class TestRSTRefactor(unittest.TestCase):
       """
       Validar marcas md obsoletas y restos de Pandoc no revisados!
       """
-      from cleaner import clean_line_content
+
       input_1 = "Capa de memoria <#i2>`__"
       input_2 = "Capa de memoria <i2>`__"
-      self.assertEqual(clean_line_content(input_1), "Capa de memoria")
-      self.assertEqual(clean_line_content(input_2), "Capa de memoria")
+      self.assertEqual(cleaner.clean_line_content(input_1), "Capa de memoria")
+      self.assertEqual(cleaner.clean_line_content(input_2), "Capa de memoria")
 
   def test_identify_literal_blocks(self):
       """
