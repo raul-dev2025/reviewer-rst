@@ -95,7 +95,7 @@ class TestRSTRefactor(unittest.TestCase):
       """
       Validar nivel de titulo 1 con sobre-subrayado,
       y esta redeado por lineas en vacias.
-      """      
+      """
 
       blocks = ["TITULO PRINCIPAL", "================="]
       filename = "doc_test"
@@ -118,8 +118,8 @@ class TestRSTRefactor(unittest.TestCase):
 
       input_1 = "Capa de memoria <#i2>`__"
       input_2 = "Capa de memoria <i2>`__"
-      self.assertEqual(cleaner.clean_line_content(input_1), "Capa de memoria")
-      self.assertEqual(cleaner.clean_line_content(input_2), "Capa de memoria")
+      self.assertEqual(linker.clean_line_content(input_1), "Capa de memoria")
+      self.assertEqual(linker.clean_line_content(input_2), "Capa de memoria")
 
   def test_identify_literal_blocks(self):
       """
