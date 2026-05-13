@@ -190,7 +190,7 @@ class TestRSTRefactor(unittest.TestCase):
     Verifica que el codige es extraido adecuadamente y
     sustituido por un marcador.
     """
-    
+
     lines = [
        "Texto inicial",     # 1
        "::",                # 2
@@ -215,7 +215,7 @@ class TestRSTRefactor(unittest.TestCase):
     """
     Valida el ciclo completo: extraccion, proceso intermedio, reinsercion
     """
-    
+
     lines = [
        "titulo minusculo",
        "::",
@@ -230,7 +230,7 @@ class TestRSTRefactor(unittest.TestCase):
     formatted_lines = [l.upper() for l in lines_with_markers]
     text_ready = "\n".join(formatted_lines)
     # 3.
-    final_output = reinject_literal_blocks(text_ready, blocks_dict)
+    final_output = linker.reinject_literal_blocks(text_ready, blocks_dict)
     # Verificacion
     self.assertIn("TITULO MINUSCULO", final_output)
     self.assertIn("PARRAFO FINAL", final_output)
