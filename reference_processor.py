@@ -68,10 +68,9 @@ def group_refs_blocks(lines):
         i += 1
 
     if current_block:
-        all_ref_blocks.append(current_block)
+      all_ref_blocks.append(current_block)
 
     prepare_file(all_ref_blocks)
-
     return all_ref_blocks
 
 def extract_references_context(context_input):
