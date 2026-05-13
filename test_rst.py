@@ -368,7 +368,6 @@ class TestRSTRefactor(unittest.TestCase):
     Valida que el filtro de bloques, limpie los anclajes .md,
     elimine el indice viejo y adhiera la ditectiva de contenido.
     """
-    from processor import filter_and_format_blocks
 
     # Simulamos lo que retorna la parte 2; el texto pristino
     doc_titles = ["Introduccion", "Capa de memoria"]
@@ -378,7 +377,7 @@ class TestRSTRefactor(unittest.TestCase):
       "Este es un párrafo con un enlace `interno <#ref>`__"
     ]
 
-    final_blocks = filter_and_format_blocks(raw_blocks, doc_titles)
+    final_blocks = linker.filter_and_format_blocks(raw_blocks, doc_titles)
 
     # Lo que debe devolver:
     # 1. la directiva de contenido
