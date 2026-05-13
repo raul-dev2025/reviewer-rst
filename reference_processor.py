@@ -18,36 +18,52 @@ def group_refs_blocks(lines):
     i = 0
     while i < len(lines):
         line = lines[i]
+        stripped = line.strip()
 
-        # ¿Es el inicio de una sección de referencias o una nota?
-        if is_structural_break(line, seek_refs=True):
-            if current_block:
-                all_ref_blocks.append(current_block)
+        # La linea vacia rompe contexto de referencia
+        if not stripped:
+          if current_block:
+            all_ref_blocks.append(current_block)
+            current_block = []
+          in_reference_block = False
+          i += 1
+          continue
 
-            # Iniciamos el nuevo bloque con la línea disparadora
-            current_block = [line]
-            i += 1
+        if this.is_structural_break(line, True):
+          if current_block:
+            all_ref_blocks.append(current_block)
 
-            # Consumimos el "cuerpo" del bloque (líneas indentadas)
-            while i < len(lines):
-                next_line = lines[i]
+          current_block = [line]
+          in_reference_block = True
+          i += 1
+          continue
 
-                # Si la línea está indentada, es parte del bloque (como las URLs de tu out130)
-                if next_line.startswith(' ') or next_line.startswith('\t') or not next_line.strip():
-                  current_block.append(next_line)
-                  i += 1
-                # Si viene otra nota pegada, también es parte del mismo bloque lógico
-                elif is_structural_break(next_line, seek_refs=True):
-                  current_block.append(next_line)
-                  i += 1
-                elif next_line.strip().startswith("-") and len(next_line.strip()) >= 3:
-                  break
-                else:
-                  if not next_line.strip().startswith(".. [") and not next_line.strip().startswith(":"):
-                    raise StructuralIntegrityError(i + 1, "Falta indentación en bloque de referencia")
-                  # Encontramos texto sin indentar: fin del bloque quirúrgico
-                  break
-            continue # Volvemos al bucle principal con el índice actualizado
+        # Valida cuerpo del bloque
+        if in_reference_block:
+          # Si esta indentada
+          if line.startswith(' ') or line.startswith('t'):
+            current_block.append(line)
+          else:
+            # Si no esta indentada
+            if not (stripped.startswith(".. [") or stripped.startswith("[") or stripped.startswith(":")):
+              all_ref_blocks.append(current_block)
+              current_block = []
+              in_reference_block = False
+              continue
+
+            if this.is_underline(line):
+              all_ref_blocks.append(current_block)
+              current_block = []
+              in_reference_block = False
+              continue
+
+            raise StructuralIntegrityError(i + 1, "Falta indentación en bloque de referencia")
+
+            all_ref_blocks.append(current_block)
+            current_block = []
+            in_reference_block = False
+            # No incrementamos i para re-evaluar la linea como inicio
+            continue
 
         i += 1
 
