@@ -50,6 +50,7 @@ def bind_dependencies():
     cleaner.re = re
     processor.re = re
     processor.this = processor
+    reference_processor.this = processor
     
     # Inyección de constantes de regex en cleaner
     cleaner.PANDOC_LINK_PATTERN = regex.PANDOC_LINK_PATTERN
