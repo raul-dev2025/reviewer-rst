@@ -13,6 +13,7 @@ def group_refs_blocks(lines):
 
     all_ref_blocks = []
     current_block = []
+    in_reference_block = False
 
     i = 0
     while i < len(lines):
