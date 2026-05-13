@@ -243,8 +243,7 @@ class TestRSTRefactor(unittest.TestCase):
     niveles en los titulos del cocumento.
     Solo puede haber un titulo de documento: ====
     """
-    from formatter import rst_title_formatter
-
+    
     lines_1 = [
         "Titulo A", "---------", # Detectado como Nivel 0 (Caja ===)
         "Texto",
@@ -280,9 +279,9 @@ class TestRSTRefactor(unittest.TestCase):
     ]
 
     # empaqueta la llamada a la funcion
-    res_1 = rst_title_formatter(lines_1, "test1")
-    res_2 = rst_title_formatter(lines_2, "test2")
-    res_3 = rst_title_formatter(lines_3, "doc")
+    res_1 = linker.rst_title_formatter(lines_1, "test1")
+    res_2 = linker.rst_title_formatter(lines_2, "test2")
+    res_3 = linker.rst_title_formatter(lines_3, "doc")
 
     # Verificacion escenario 1
     # El primer titulo es una caja sobre-subrayado
