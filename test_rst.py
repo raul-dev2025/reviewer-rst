@@ -19,9 +19,9 @@ class TestRSTRefactor(unittest.TestCase):
       """
 
       # Deben ser ciertos
-      self.assertTrue(is_underline("======"))
-      self.assertTrue(is_underline("------"))
-      self.assertTrue(is_underline("^^^"))
+      self.assertTrue(linker.is_underline("======"))
+      self.assertTrue(linker.is_underline("------"))
+      self.assertTrue(linker.is_underline("^^^"))
       
       #Deben ser falsos
       self.assertFalse(is_underline("Frase de ejemplo"))
