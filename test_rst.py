@@ -24,10 +24,10 @@ class TestRSTRefactor(unittest.TestCase):
       self.assertTrue(linker.is_underline("^^^"))
       
       #Deben ser falsos
-      self.assertFalse(is_underline("Frase de ejemplo"))
-      self.assertFalse(is_underline("=="))
-      self.assertFalse(is_underline("==-=="))
-      self.assertFalse(is_underline(""))
+      self.assertFalse(linker.is_underline("Frase de ejemplo"))
+      self.assertFalse(linker.is_underline("=="))
+      self.assertFalse(linker.is_underline("==-=="))
+      self.assertFalse(linker.is_underline(""))
 
   def test_is_structural_break(self):
       """
