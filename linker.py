@@ -38,6 +38,13 @@ def bind_dependencies():
     global is_underline, process_rst_blocks, identify_literal_blocks, extract_literal_blocks, reinject_literal_blocks, is_structural_break, get_document_titles, group_lines_into_raw_blocks, filter_and_format_blocks
     # reference_processor
     global group_refs_blocks, extract_references_context, rst_title_formatter
+    # formatter
+    global get_level_from_symbol, render_title, rst_title_formatter
+    # cleaner
+    global clean_line_content, strip_metadata
+
+    # Inyección de excepiones
+    reference_processor.StructuralIntegrityError = exceptions.StructuralIntegrityError
 
     # Inyección de la librería estándar
     cleaner.re = re
