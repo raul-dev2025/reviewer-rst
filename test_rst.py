@@ -320,7 +320,6 @@ class TestRSTRefactor(unittest.TestCase):
     """
     Valida la identificacion de textos, despues del subrrayado.
     """
-    from processor import get_document_titles
 
     lines = [
       "Titulo Uno",
@@ -334,7 +333,7 @@ class TestRSTRefactor(unittest.TestCase):
       "~~~~~~~~~~~~"      
     ]
 
-    titles = get_document_titles(lines)
+    titles = linker.get_document_titles(lines)
 
     # Se espera tres titulos y contaremos 
     # a partir de la cuarta entrada en bloque
