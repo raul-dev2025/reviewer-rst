@@ -125,7 +125,7 @@ class TestRSTRefactor(unittest.TestCase):
       """
       Valida la identificacion de bloques de codigo.
       """
-      from processor import identify_literal_blocks
+
       lines = [
           "Párrafo inicial.",          # 0
           "",                          # 1
@@ -178,11 +178,11 @@ class TestRSTRefactor(unittest.TestCase):
           "",                          # 16
           "Final."                     # 17
       ]
-      ranges = identify_literal_blocks(lines)
+      ranges = linker.identify_literal_blocks(lines)
       self.assertEqual(ranges, [(2, 6), (8, 10)])
-      ranges = identify_literal_blocks(lines2)
+      ranges = linker.identify_literal_blocks(lines2)
       self.assertEqual(ranges, [(2, 7), (11, 13)])
-      ranges = identify_literal_blocks(lines3)
+      ranges = linker.identify_literal_blocks(lines3)
       self.assertEqual(ranges, [(2, 8), (13, 15)])
 
   def test_extract_literal_blocks(self):
@@ -190,7 +190,7 @@ class TestRSTRefactor(unittest.TestCase):
     Verifica que el codige es extraido adecuadamente y
     sustituido por un marcador.
     """
-    from processor import identify_literal_blocks, extract_literal_blocks
+    
     lines = [
        "Texto inicial",     # 1
        "::",                # 2
@@ -199,8 +199,9 @@ class TestRSTRefactor(unittest.TestCase):
        ".. code-block::",   # 5
        "   codigo 2"        # 6
     ]
-    ranges = identify_literal_blocks(lines)
-    new_lines, blocks_dict = extract_literal_blocks(lines, ranges)
+
+    ranges = linker.identify_literal_blocks(lines)
+    new_lines, blocks_dict = linker.extract_literal_blocks(lines, ranges)
     # Comprueba cuantas lineas quedan
     self.assertEqual(len(new_lines), 4)
     # Comprueba posicion del marcador
@@ -214,7 +215,7 @@ class TestRSTRefactor(unittest.TestCase):
     """
     Valida el ciclo completo: extraccion, proceso intermedio, reinsercion
     """
-    from processor import identify_literal_blocks, extract_literal_blocks, reinject_literal_blocks
+    
     lines = [
        "titulo minusculo",
        "::",
@@ -222,8 +223,8 @@ class TestRSTRefactor(unittest.TestCase):
        "parrafo final"
     ]
     # 1 Identifica y extrae
-    ranges = identify_literal_blocks(lines)
-    lines_with_markers, blocks_dict = extract_literal_blocks(lines, ranges)
+    ranges = linker.identify_literal_blocks(lines)
+    lines_with_markers, blocks_dict = linker.extract_literal_blocks(lines, ranges)
     # 2. Simula el proceso de formato, comprobando que lo guardado
     # en el diccionario continua intacto
     formatted_lines = [l.upper() for l in lines_with_markers]
