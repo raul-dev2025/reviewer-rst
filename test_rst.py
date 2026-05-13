@@ -53,12 +53,10 @@ class TestRSTRefactor(unittest.TestCase):
       - ajuste de longitud y referencia atomica
       """
 
-      from formatter import rst_title_formatter
-      
       blocks = ["Titulo de prueba", "===================="]
       filename = "guia_usuario"
       
-      result = rst_title_formatter(blocks, filename)
+      result = linker.rst_title_formatter(blocks, filename)
       
       self.assertIn(".. _guia_usuario_1:", result)
       
