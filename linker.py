@@ -70,12 +70,18 @@ def bind_dependencies():
     save_file = file_manager.save_file
     create_backup = file_manager.create_backup
     export_refs_to_out_files = file_manager.export_refs_to_out_files
+    reference_processor.prepare_file = file_manager.prepare_file
 
     # Procesamiento
+    is_underline = processor.is_underline
     process_rst_blocks = processor.process_rst_blocks
     identify_literal_blocks = processor.identify_literal_blocks
     extract_literal_blocks = processor.extract_literal_blocks
     reinject_literal_blocks = processor.reinject_literal_blocks
+    is_structural_break = processor.is_structural_break
+    get_document_titles = processor.get_document_titles
+    group_lines_into_raw_blocks = processor.group_lines_into_raw_blocks
+    filter_and_format_blocks = processor.filter_and_format_blocks
 
     # reference_processor
     group_refs_blocks = reference_processor.group_refs_blocks
