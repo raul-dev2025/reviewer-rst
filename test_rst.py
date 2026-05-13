@@ -399,8 +399,7 @@ class TestRSTRefactor(unittest.TestCase):
     Comprueba que una nota de pie de página y su enlace son procesados e identificados
     correctamente como un bloque de referencias usando la convención rST estándar.
     """
-    from processor import process_rst_blocks
-    
+
     lines = [
         "En el hipervisor deben ser deshabilitadas las trampas (traps) [#f1]_.",
         "",
@@ -409,7 +408,7 @@ class TestRSTRefactor(unittest.TestCase):
     ]
     
     # Procesamos en modo referencias
-    blocks = process_rst_blocks(lines, seek_refs=True)
+    blocks = linker.process_rst_blocks(lines, seek_refs=True)
     
     # Verificamos que se haya capturado el bloque de referencia
     self.assertTrue(len(blocks) > 0, "Debería haberse detectado el bloque de referencia.")
