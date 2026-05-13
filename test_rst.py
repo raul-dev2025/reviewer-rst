@@ -243,7 +243,7 @@ class TestRSTRefactor(unittest.TestCase):
     niveles en los titulos del cocumento.
     Solo puede haber un titulo de documento: ====
     """
-    
+
     lines_1 = [
         "Titulo A", "---------", # Detectado como Nivel 0 (Caja ===)
         "Texto",
@@ -304,7 +304,6 @@ class TestRSTRefactor(unittest.TestCase):
     Valida parrafo si encuentra lineas separadas sin signos de puntuacion;
     al principio o al final.
     """
-    from processor import process_rst_blocks
 
     lines = [
       "causada por",
@@ -312,7 +311,7 @@ class TestRSTRefactor(unittest.TestCase):
       "efectiva desaparicion"
     ]
 
-    blocks = process_rst_blocks(lines)
+    blocks = linker.process_rst_blocks(lines)
     self.assertEqual(blocks[2], "causada por efectiva desaparicion")
 
   # Primer test propuesto: get_documet_titles()
