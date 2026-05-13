@@ -87,6 +87,9 @@ def bind_dependencies():
     group_refs_blocks = reference_processor.group_refs_blocks
     extract_references_context = reference_processor.extract_references_context
 
-
-    # Da formato
+    # Dar formato, formatter
     rst_title_formatter = formatter.rst_title_formatter
+
+    # cleaner
+    strip_metadata = cleaner.strip_metadata
+    clean_line_content = cleaner.clean_line_content
