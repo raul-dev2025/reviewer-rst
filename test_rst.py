@@ -349,7 +349,6 @@ class TestRSTRefactor(unittest.TestCase):
     Verifica si la funcion une el texto que empieza
     por minuscula despues de linea vacia
     """
-    from processor import group_lines_into_raw_blocks
 
     lines = [
       "Esta frase esta",
@@ -357,7 +356,7 @@ class TestRSTRefactor(unittest.TestCase):
       "continuada en minuscula."
     ]
 
-    blocks = group_lines_into_raw_blocks(lines)
+    blocks = linker.group_lines_into_raw_blocks(lines)
 
     self.assertEqual(len(blocks), 1)
     self.assertEqual(blocks[0], "Esta frase esta continuada en minuscula.")
