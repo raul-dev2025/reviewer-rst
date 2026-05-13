@@ -33,20 +33,19 @@ class TestRSTRefactor(unittest.TestCase):
       """
       Validacion de puntos de ruptura estructural
       """
-      from processor import is_structural_break
 
-      self.assertTrue(is_structural_break(""), "Una línea vacía debe romper el bloque")
-      self.assertTrue(is_structural_break(".. nota:"), "Las  directivas rST son rupturas")
-      self.assertTrue(is_structural_break("::"), "El inicio de bloque es ruptura")
-      self.assertTrue(is_structural_break(":autor:"), "Si empieza por dos puntos es ruptura")
-      self.assertTrue(is_structural_break("   :autor:"), "Los  campos indentados son ruptura")
+      self.assertTrue(linker.is_structural_break(""), "Una línea vacía debe romper el bloque")
+      self.assertTrue(linker.is_structural_break(".. nota:"), "Las  directivas rST son rupturas")
+      self.assertTrue(linker.is_structural_break("::"), "El inicio de bloque es ruptura")
+      self.assertTrue(linker.is_structural_break(":autor:"), "Si empieza por dos puntos es ruptura")
+      self.assertTrue(linker.is_structural_break("   :autor:"), "Los  campos indentados son ruptura")
 
-      self.assertFalse(is_structural_break("esto es texto normal"), "texto normal no rompe")
-      self.assertFalse(is_structural_break("  continuación texto"), "indentación no rompe")
+      self.assertFalse(linker.is_structural_break("esto es texto normal"), "texto normal no rompe")
+      self.assertFalse(linker.is_structural_break("  continuación texto"), "indentación no rompe")
 
-      self.assertTrue(is_structural_break("Referencias", seek_refs=True))
-      self.assertTrue(is_structural_break("[1] Referencia técnica", seek_refs=True))
-      self.assertTrue(is_structural_break(".. [#] Nota al pie", seek_refs=True))
+      self.assertTrue(linker.is_structural_break("Referencias", seek_refs=True))
+      self.assertTrue(linker.is_structural_break("[1] Referencia técnica", seek_refs=True))
+      self.assertTrue(linker.is_structural_break(".. [#] Nota al pie", seek_refs=True))
       
   def test_rst_title_formatter(self):
       """
