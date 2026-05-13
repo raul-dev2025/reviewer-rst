@@ -418,9 +418,6 @@ class TestRSTRefactor(unittest.TestCase):
     """
     Verifica el formato correcto de referencias en un documento.
     """
-    import os
-    from reference_processor import group_refs_blocks
-    from file_manager import save_file
 
     # 1. Simula una seccion de referencias
     sample_lines = [
@@ -438,7 +435,7 @@ class TestRSTRefactor(unittest.TestCase):
 
     # 2. Probar group_refs_blocks, maquina de estado
     print("--- Probando group_refs_blocks() ---")
-    blocks = group_refs_blocks(sample_lines)
+    blocks = linker.group_refs_blocks(sample_lines)
 
     for idx, b in enumerate(blocks):
       print(f"Bloque {idx + 1}: {len(b)} lineas")
