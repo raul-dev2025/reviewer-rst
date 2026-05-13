@@ -70,8 +70,7 @@ class TestRSTRefactor(unittest.TestCase):
       Validacionde integracion: paragrafos con indentacion
       y mantenimiento de la estructura
       """
-      from processor import process_rst_blocks
-      from  formatter import rst_title_formatter
+
       input_data = [
           "Consiste en un ``device_node``\\ s -nodo de dispositivo, en forma de",
           "     *estructura de árbol*,",
@@ -80,7 +79,7 @@ class TestRSTRefactor(unittest.TestCase):
           "Siguiente Párrafo."
       ]
 
-      blocks = process_rst_blocks(input_data)
+      blocks = linker.process_rst_blocks(input_data)
 
       # Ahora esperamos 3 bloques de TOC + 2 de contenido = 5
       self.assertEqual(len(blocks), 4)
@@ -88,7 +87,7 @@ class TestRSTRefactor(unittest.TestCase):
       # Los párrafos reales empiezan tras el TOC (índice 3 en adelante)
       self.assertIn("forma de *estructura de árbol*, descrita", blocks[2])
       
-      result = rst_title_formatter(blocks, "test_file")
+      result = linker.rst_title_formatter(blocks, "test_file")
       self.assertNotIn("====", result)
       self.assertIn("Consiste en un", result)
 
@@ -96,13 +95,12 @@ class TestRSTRefactor(unittest.TestCase):
       """
       Validar nivel de titulo 1 con sobre-subrayado,
       y esta redeado por lineas en vacias.
-      """
-      from formatter import rst_title_formatter
+      """      
 
       blocks = ["TITULO PRINCIPAL", "================="]
       filename = "doc_test"
       
-      result = rst_title_formatter(blocks, filename)
+      result = linker.rst_title_formatter(blocks, filename)
       
       expected_pattern = (
           ".. _doc_test_1:\n\n"
