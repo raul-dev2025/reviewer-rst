@@ -20,7 +20,10 @@ group_lines_into_raw_blocks = None
 group_refs_blocks = None
 extract_references_context = None
 rst_title_formatter = None
-
+get_level_from_symbol = None
+render_title = None
+clean_line_content = None
+strip_metadata = None
 
 def bind_dependencies():
     """
