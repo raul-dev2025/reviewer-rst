@@ -17,9 +17,7 @@ class TestRSTRefactor(unittest.TestCase):
       Validar la deteccion de subrayados rST.
       Regla: minimo 3 caracteres, todos identicos del set [=, -, ~, ^]
       """
-      from processor import is_underline, process_rst_blocks
-      from formatter import rst_title_formatter
-      
+
       # Deben ser ciertos
       self.assertTrue(is_underline("======"))
       self.assertTrue(is_underline("------"))
