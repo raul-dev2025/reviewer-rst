@@ -434,11 +434,23 @@ class TestRSTRefactor(unittest.TestCase):
     ]
 
     # 2. Probar group_refs_blocks, maquina de estado
-    print("--- Probando group_refs_blocks() ---")
+    #print("--- Probando group_refs_blocks() ---")
     blocks = linker.group_refs_blocks(sample_lines)
 
-    for idx, b in enumerate(blocks):
-      print(f"Bloque {idx + 1}: {len(b)} lineas")
+    # for idx, b in enumerate(blocks):
+      # print(f"Bloque {idx + 1}: {len(b)} lineas")
+
+    # Se esperan cinco bloques contando el titulo
+    self.assertEqual(len(blocks), 5)
+
+    # Valida integridad de bloque
+    self.assertEqual(len(blocks[1]), 2)
+    # Valida el contenido, debe estar en sicronia con la anterior comprobacion
+    self.assertIn("#f1", blocks[1][0])
+    self.assertTrue(blocks[1][1].startswith("    "), "La url debe mantener indentacion.")
+    # Valida otro bloque
+    self.assertIn("[f5]", blocks[4][0])
+
 
     
 
