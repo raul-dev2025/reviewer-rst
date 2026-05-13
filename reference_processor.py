@@ -1,16 +1,15 @@
 # -*- coding: utf-8 -*-
 
 import os, re
-from regex import reference_pattern
+
+
+this = None
 
 def group_refs_blocks(lines):
     """
     Maquina de estado para capturar bloques de referencias.
-    Captura bloques de referencias con integridad estructural (estilo bloque de código).
+    Captura bloques de referencias con integridad estructural.
     """
-    from  processor import is_structural_break
-    from exceptions import StructuralIntegrityError
-    from file_manager import prepare_file
 
     all_ref_blocks = []
     current_block = []
