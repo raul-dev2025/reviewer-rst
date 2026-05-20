@@ -522,7 +522,7 @@ class TestRSTRefactor(unittest.TestCase):
     self.assertIn("[i1]_", normalized_md)
 
     line_num = "(of-fpga-region.c) described in [1]. The DT support layer"
-    normalized_num = closures.normalize_text_with_rules(line_num, rules)
+    normalized_num = normalize(line_num, rules)
     self.assertIn("[1]_", normalized_num)
 
     line_literal = "Aquí hay otro texto de contexto para f5."
