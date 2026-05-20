@@ -2,7 +2,6 @@
 
 import os, re
 
-
 this = None
 
 def group_refs_blocks(lines):
@@ -80,7 +79,6 @@ def extract_references_context(context_input):
   """
   context_lines = []
 
-
   if context_input:
     full_text = ' '.join(context_input) if isinstance(context_input, list) else context_input
     matches = list(reference_pattern.finditer(full_text))
@@ -111,30 +109,19 @@ def extract_references_context(context_input):
 
   return context_lines
 
-def format_references(all_refs, rst_format=False):
-  """
-  Da formato rST a las referencias encontradas en el documento.
-  """
+def format_references(sample_refs, rst_format=True):
+    """
+    Toma una lista de referencias e introduce el prefijo de definición rST.
+    Asume que la limpieza semántica profunda ha sido gestionada por closures.py.
+    """
+    formatted_lines = []
 
-  if not all_refs:
-    return  ""
+    for ref in sample_refs:
+      clean_ref = ref.strip("[]_` ")
 
-  formatted_output = []
+      if rst_format:
+        formatted_lines.append(f".. [{clean_ref}]")
+      else:
+        formatted_lines.append(f"[{clean_ref}]")
 
-  for ref in all_refs:
-    if isinstance(ref, dict):
-      ref_val = ref.get('reference', '')
-    else:
-      ref_val = str(ref)
-
-    clean_ref = ref_val.strip('[]').strip()
-
-    if rst_format:
-      formatted_output.append(f"..  [{clean_ref}]")
-    else:
-      formatted_output.append(f"- {clean_ref}")
-
-
-
-  return "\n".join(formatted_output)
-
+    return "\n".join(formatted_lines)
