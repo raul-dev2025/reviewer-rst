@@ -95,6 +95,6 @@ def prepare_file(ref_list):
     content = "\n".join(content_list)
 
     save_file(file_path, content)
-    print(f"Archivo preparado y guardado en: {file_path}")
+    #print(f"\n\nArchivo preparado y guardado en: {file_path}")
 
     return file_path
