@@ -19,6 +19,7 @@ filter_and_format_blocks = None
 group_lines_into_raw_blocks = None
 group_refs_blocks = None
 extract_references_context = None
+format_references = None
 rst_title_formatter = None
 get_level_from_symbol = None
 render_title = None
@@ -37,7 +38,7 @@ def bind_dependencies():
     # processor
     global is_underline, process_rst_blocks, identify_literal_blocks, extract_literal_blocks, reinject_literal_blocks, is_structural_break, get_document_titles, group_lines_into_raw_blocks, filter_and_format_blocks
     # reference_processor
-    global group_refs_blocks, extract_references_context, rst_title_formatter
+    global group_refs_blocks, extract_references_context, format_references
     # formatter
     global get_level_from_symbol, render_title, rst_title_formatter
     # cleaner
@@ -86,6 +87,7 @@ def bind_dependencies():
     # reference_processor
     group_refs_blocks = reference_processor.group_refs_blocks
     extract_references_context = reference_processor.extract_references_context
+    format_references = reference_processor.format_references
 
     # Dar formato, formatter
     rst_title_formatter = formatter.rst_title_formatter
