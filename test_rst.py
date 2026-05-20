@@ -449,6 +449,12 @@ class TestRSTRefactor(unittest.TestCase):
     # Valida otro bloque
     self.assertIn("[f5]", blocks[4][0])
 
+  def test_format_references(self):
+    """
+    Simula referencias encontradas en el documento, y verifica el formato.
+    """
+    import closures
+    rules = closures.load_dynamic_rules('archivo_regex.txt')
 
     
 
