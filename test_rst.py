@@ -495,7 +495,49 @@ class TestRSTRefactor(unittest.TestCase):
     for c in contexts:
       print(f"ref : {c['reference']}, context: {c['context']}")
     
-  #   self.assertTrue(len(contexts) > 0, "Debería haberse extraído contexto del documento.")
+    # Valida la estructura retornada
+    self.assertTrue(len(contexts) > 0, "Debería haberse extraído contexto del documento.")
+
+    # Verifica que las referencias y sus calves correspondientes, sean capturadas
+    references_found = [c['reference'] for c in contexts]
+    self.assertIn("[#f1]", references_found)
+    self.assertIn("[f5]", references_found)
+
+    #Valida que el contexto sea guardado
+    self.assertEqual(contexts[0]['context'], "que usa")
+
+  def test_closure_load_rules(self):
+    """
+    Verifica que load_dynamic_rules carga correctamente el archivo sin fallos
+    y compila el número esperado de clausuras ejecutables.
+    """
+    import closures
+    rules = closures.load_dynamic_rules('archivo_regex.txt')
+
+    self.assertIsInstance(rules, list)
+    self.assertTrue(len(rules) > 0, "Deberían haberse cargado reglas desde el archivo.")
+    self.assertEqual(len(rules[0]), 2)
+
+  def test_closure_normalization_scenarios(self):
+    """
+    Valida la transformación y corrección de anomalías de Markdown y literales
+    hacia la sintaxis correcta reStructuredText (rST).
+    """
+    import closures
+    rules = closures.load_dynamic_rules('archivo_regex.txt')
+
+    line_md = "`Utilizando el disco de RAM inicial(``initrd``) <#i1>`__"
+    normalized_md = closures.normalize_text_with_rules(line_md, rules)
+    self.assertIn("[i1]_", normalized_md)
+
+    line_num = "(of-fpga-region.c) described in [1]. The DT support layer"
+    normalized_num = closures.normalize_text_with_rules(line_num, rules)
+    self.assertIn("[1]_", normalized_num)
+
+    line_literal = "Aquí hay otro texto de contexto para f5."
+    normalized_literal = closures.normalize_text_with_rules(line_literal, rules)
+    #print("\nEl valor de normalized_literal es: ", normalized_literal)
+    self.assertIn("[f5]", normalized_literal)
 
 
 
