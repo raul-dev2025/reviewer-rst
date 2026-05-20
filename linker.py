@@ -66,6 +66,11 @@ def bind_dependencies():
     processor.FOOTNOTE_PATTERN = regex.FOOTNOTE_PATTERN
     processor.RST_UNDERLINE_PATTERN = regex.RST_UNDERLINE_PATTERN
 
+    # reference_processor module
+    reference_processor.reference_pattern = regex.reference_pattern
+    reference_processor.rules = closures.load_dynamic_rules('archivo_regex.txt')
+    reference_processor.normalize_text_with_rules = closures.normalize_text_with_rules
+
     # Exposición de símbolos(GateWay)
     read_file = file_manager.read_file
     save_file = file_manager.save_file
