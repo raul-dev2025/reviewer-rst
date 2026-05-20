@@ -1,0 +1,11 @@
+# Regla 1: Limpia y unifica los índices viejos/remanentes de Markdown heredados de Pandoc
+`([^<]+)<#([a-zA-Z]*)(\d+)>`__? $ `([^<]+)<#([a-zA-Z]*)(\d+)>`__? $ [\2\3]_
+
+# Regla 2: Unifica las referencias que ya vienen entre corchetes en el cuerpo del texto (ej. [1] o [i1])
+\[(#?[a-zA-Z]*\d+)\] $ \[(#?[a-zA-Z]*\d+)\] $ [\1]_
+
+# Regla 3: Detecta literales numéricos sueltos (ej: i1 o f5) que actúan como llamadas implícitas
+(\[?#([a-zA-Z]*\d+)\]?) $ (\[?#([a-zA-Z]*\d+)\]?) $ [#\2]_
+
+# Regla 4: Intercepta literales puros al final de frase en contextos específicos (ej: f5.)
+\b([a-zA-Z])(\d+)\b\. $ \b([a-zA-Z])(\d+)\b\. $ [\1\2]_.
