@@ -80,6 +80,11 @@ def extract_references_context(context_input):
   context_lines = []
 
   if context_input:
+    if isinstance(context_input, list):
+      context_input = [normalize_text_with_rules(line, rules) for line in context_input]
+    else:
+      context_input = normalize_text_with_rules(context_input, rules)
+
     full_text = ' '.join(context_input) if isinstance(context_input, list) else context_input
     matches = list(reference_pattern.finditer(full_text))
 
@@ -89,7 +94,6 @@ def extract_references_context(context_input):
 
       # texto previo de la referencia
       preceding_text = full_text[:start_idx].strip()
-
       words = preceding_text.split()
 
       if len(words) == 0:
@@ -100,10 +104,12 @@ def extract_references_context(context_input):
         context_snippet = words[0]
 
       # Filtra, y guarda el cxt asociado a la ref.
-      if reference_text:
+      if reference_text:        
+        clean_context = normalize_text_with_rules(context_snippet, rules)
+
         context_lines.append({
         "reference": reference_text,
-        "context": context_snippet
+        "context": clean_context
         })
 
 
