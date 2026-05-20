@@ -456,41 +456,44 @@ class TestRSTRefactor(unittest.TestCase):
     import closures
     rules = closures.load_dynamic_rules('archivo_regex.txt')
 
-    
+    # 3. Simular referencias encontradas
+    sample_refs = ["#f1", "[#f2]", "`f3 <#f3>`_", "f5"]
 
-  # def test_format_references(self):
-  #   """
-  #   Simula referencias encontradas en el documento, y verifica el formato.
-  #   """
-  #   from reference_processor import format_references
-  #   # 3. Simular referencias encontradas
-  #   sample_refs = ["#f1", "[#f2]", "`f3 <#f3>`_", "f5"]
+    sample_refs_clean = [closures.normalize_text_with_rules(ref, rules)for ref in sample_refs]
 
-  #   # 4. Probar format_references()
-  #   print("\n--- Probando format_references() a rST ---")
-  #   formatted_rst = format_references(sample_refs, rst_format=True)
-  #   print(formatted_rst)
+    # 4. Probar format_references()
+    #print("\n--- Probando format_references() a rST ---")
+    formatted_rst = linker.format_references(sample_refs_clean, rst_format=True)
+    #print(formatted_rst)
 
-  # def test_extract_references_context(self):
-  #   """
-  #   Valida la extraccion del contexto asociado a la referencia.
-  #   """
-  #   from reference_processor import extract_references_context, format_references
+    # Validar que  devuelva el formato correcto
+    self.assertIsInstance(formatted_rst, str)
+    self.assertIn(".. [#f1]", formatted_rst)
+    self.assertIn(".. [#f2]", formatted_rst)
+    self.assertIn(".. [f3]", formatted_rst)
+    self.assertIn(".. [f5]", formatted_rst)
 
-  #   # Usamos texto de documento real donde la referencia aparece en el cuerpo
-  #   document_lines = [
-  #     "Esta es una frase de prueba que usa [#f1] como ejemplo.",
-  #     "Aquí hay otro texto de contexto para f5.",
-  #     "contexto de texto 2 [#f2]",
-  #     "otro contexto `f3 <#f3>`_"
-  #   ]
+  def test_extract_references_context(self):
+    """
+    Valida la extraccion del contexto asociado a la referencia.
+    """
+    # Usamos texto de documento real donde la referencia aparece en el cuerpo
+    document_lines = [
+      "Esta es una frase de prueba que usa [#f1] como ejemplo.",
+      "Aquí hay otro texto de contexto para f5.",
+      "contexto de texto 2 [#f2]",
+      "otro contexto `f3 <#f3>`_"
+    ]
+    import closures
+    rules = closures.load_dynamic_rules('archivo_regex.txt')
+    normalized_lines = [closures.normalize_text_with_rules(line, rules) for line in document_lines]
 
-  #   # 5. Probar extract_references_context()
-  #   print("\n--- Probando extract_references_context() ---")
-  #   contexts = extract_references_context(document_lines)
+    # 5. Probar extract_references_context()
+    print("\n--- Probando extract_references_context() ---")
+    contexts = linker.extract_references_context(normalized_lines)
 
-  #   for c in contexts:
-  #     print(f"ref : {c['reference']}, context: {c['context']}")
+    for c in contexts:
+      print(f"ref : {c['reference']}, context: {c['context']}")
     
   #   self.assertTrue(len(contexts) > 0, "Debería haberse extraído contexto del documento.")
 
