@@ -130,23 +130,41 @@ def reinject_literal_blocks(text, blocks_dict):
 
     return final_text
 
-def is_legacy_toc(block, documet_titles):
-  """
-  Detecta un indice residual MarkDown. Se trata de un
-  bloque largo que contiene los titulos de seccion.
-  """
-  if not documet_titles:
+def is_legacy_toc(clean_text, doc_titles):
+    """
+    Determina si un bloque de texto limpio corresponde al antiguo índice
+    manual de Markdown/Pandoc basándose en la lista de títulos del documento.
+    """
+    if not clean_text or not doc_titles:
+        return False
+
+    # Normalizamos el bloque para evaluar su contenido sin ruido de espacios
+    text_snippet = clean_text.strip()
+
+    # ESCENARIO 1: El bloque es exactamente igual a uno de los títulos, 
+    # pero sabemos que los títulos reales van seguidos de un subrayado (is_underline).
+    # Si este bloque aparece suelto y aislado al inicio del archivo en el raw_blocks,
+    # y coincide con un título del documento, es altamente probable que sea una línea
+    # del índice viejo.
+    if text_snippet in doc_titles:
+        return True
+
+    # ESCENARIO 2: Múltiples elementos de índice en una sola línea.
+    # El caso típico de Pandoc: "`Introducción <#i1>`__ `Capa de memoria <#i2>`__"
+    # Tras pasar por cleaner.clean_line_content(), esto queda como "Introducción Capa de memoria".
+    # Validamos si la línea está compuesta exclusivamente por la concatenación de los títulos conocidos.
+    words_found = 0
+    for title in doc_titles:
+        if title in text_snippet:
+            words_found += 1
+
+    # Si la línea contiene más de un título conocido y su longitud es cercana 
+    # a la suma de dichos títulos, confirmamos que es un residuo del índice.
+    if words_found >= 2:
+        return True
+
     return False
 
-  coincidencias = 0
-  # Limpiamos el bloque antes de empezar
-  block_clean = block.lower()
-
-  for title in documet_titles:
-    if title.lower() in block_clean:
-      coincidencias += 1
-
-  return coincidencias >= 2
 
 def get_toc_directive():
   """
