@@ -381,18 +381,16 @@ class TestRSTRefactor(unittest.TestCase):
 
     # Lo que debe devolver:
     # 1. la directiva de contenido
-    expected_toc = ".. contents:: Tabla de contenidos\n   :depth: 3"
+    expected_toc = (
+    ".. contents:: Tabla de contenidos\n"
+    "   :local:\n"
+    "   :backlinks: none\n"
+    "   :depth: 2\n"
+    ""
+    )
     self.assertEqual(final_blocks[0], expected_toc)
-    
-    # 2. El indice arrastrado desde markdowns y los anclajes
-    # ya han sido procesados (raw_blocks[0-1])
-    self.assertEqual(final_blocks[2], "Introduccion")
-
-    # 3. El parrafo (raw_blocks[2]) debe estar limpio
-    self.assertEqual(final_blocks[3], "Este es un párrafo con un enlace interno")
-
-    # 4. total esperad: 3 (TOC) + 2 (contenido limpio) = 5
-    self.assertEqual(len(final_blocks), 4)
+    self.assertEqual(final_blocks[2], "Este es un párrafo con un enlace interno")
+    self.assertEqual(len(final_blocks), 3)
 
   def test_full_reference_processing(self):
     """
