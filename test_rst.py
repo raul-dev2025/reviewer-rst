@@ -514,8 +514,8 @@ class TestRSTRefactor(unittest.TestCase):
     Valida la transformación y corrección de anomalías de Markdown y literales
     hacia la sintaxis correcta reStructuredText (rST).
     """
-    import closures
-    rules = closures.load_dynamic_rules('archivo_regex.txt')
+    normalize = linker.reference_processor.normalize_text_with_rules
+    rules = linker.reference_processor.rules
 
     line_md = "`Utilizando el disco de RAM inicial(``initrd``) <#i1>`__"
     normalized_md = closures.normalize_text_with_rules(line_md, rules)
