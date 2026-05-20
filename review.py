@@ -42,7 +42,7 @@ def main():
             protected_lines, blocks_dict = linker.extract_literal_blocks(lines, ranges)
             
             # 2. LIMPIEZA: Metadata y marcas MD obsoletas
-            clean_text = cleaner.strip_metadata("\n".join(protected_lines))
+            clean_text = linker.strip_metadata("\n".join(protected_lines))
             
             # 3. PROCESAMIENTO: Coordinación de bloques (Mutex automático en False)
             blocks = linker.process_rst_blocks(clean_text.splitlines())
