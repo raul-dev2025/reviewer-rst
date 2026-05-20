@@ -518,7 +518,7 @@ class TestRSTRefactor(unittest.TestCase):
     rules = linker.reference_processor.rules
 
     line_md = "`Utilizando el disco de RAM inicial(``initrd``) <#i1>`__"
-    normalized_md = closures.normalize_text_with_rules(line_md, rules)
+    normalized_md = normalize(line_md, rules)
     self.assertIn("[i1]_", normalized_md)
 
     line_num = "(of-fpga-region.c) described in [1]. The DT support layer"
