@@ -170,10 +170,14 @@ def get_toc_directive():
   """
   Directiva estandar para tabla de contenidos 
   """
-  return [
-    ".. contents:: Tabla de contenidos\n   :depth: 3",
+  toc_lines = (
+    ".. contents:: Tabla de contenidos\n"
+    "   :local:\n"
+    "   :backlinks: none\n"
+    "   :depth: 2\n"
     ""
-  ]
+  )
+  return [toc_lines, ""]
 
 def validate_structural_integrity(lines):
     """
