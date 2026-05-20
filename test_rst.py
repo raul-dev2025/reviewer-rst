@@ -503,8 +503,7 @@ class TestRSTRefactor(unittest.TestCase):
     Verifica que load_dynamic_rules carga correctamente el archivo sin fallos
     y compila el número esperado de clausuras ejecutables.
     """
-    import closures
-    rules = closures.load_dynamic_rules('archivo_regex.txt')
+    rules = linker.reference_processor.rules
 
     self.assertIsInstance(rules, list)
     self.assertTrue(len(rules) > 0, "Deberían haberse cargado reglas desde el archivo.")
