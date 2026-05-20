@@ -526,7 +526,7 @@ class TestRSTRefactor(unittest.TestCase):
     self.assertIn("[1]_", normalized_num)
 
     line_literal = "Aquí hay otro texto de contexto para f5."
-    normalized_literal = closures.normalize_text_with_rules(line_literal, rules)
+    normalized_literal = normalize(line_literal, rules)
     #print("\nEl valor de normalized_literal es: ", normalized_literal)
     self.assertIn("[f5]", normalized_literal)
 
