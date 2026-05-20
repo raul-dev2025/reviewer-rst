@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import re
-import file_manager, processor, reference_processor, formatter, cleaner, regex
+import file_manager, processor, reference_processor, formatter, cleaner, regex, closures
 
 # Definimos los símbolos a nivel de módulo para que existan en el namespace
 read_file = None
