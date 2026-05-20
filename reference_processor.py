@@ -123,7 +123,7 @@ def format_references(sample_refs, rst_format=True):
     formatted_lines = []
 
     for ref in sample_refs:
-      clean_ref = ref.strip("[]_` ")
+      clean_ref = normalize_text_with_rules(ref, rules).strip("[]_` ")
 
       if rst_format:
         formatted_lines.append(f".. [{clean_ref}]")
