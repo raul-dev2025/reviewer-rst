@@ -453,17 +453,12 @@ class TestRSTRefactor(unittest.TestCase):
     """
     Simula referencias encontradas en el documento, y verifica el formato.
     """
-    import closures
-    rules = closures.load_dynamic_rules('archivo_regex.txt')
-
-    # 3. Simular referencias encontradas
+    # Simular referencias encontradas
     sample_refs = ["#f1", "[#f2]", "`f3 <#f3>`_", "f5"]
 
-    sample_refs_clean = [closures.normalize_text_with_rules(ref, rules)for ref in sample_refs]
-
-    # 4. Probar format_references()
+    # Probar format_references()
     #print("\n--- Probando format_references() a rST ---")
-    formatted_rst = linker.format_references(sample_refs_clean, rst_format=True)
+    formatted_rst = linker.format_references(sample_refs, rst_format=True)
     #print(formatted_rst)
 
     # Validar que  devuelva el formato correcto
