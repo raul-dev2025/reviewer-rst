@@ -479,16 +479,13 @@ class TestRSTRefactor(unittest.TestCase):
       "contexto de texto 2 [#f2]",
       "otro contexto `f3 <#f3>`_"
     ]
-    import closures
-    rules = closures.load_dynamic_rules('archivo_regex.txt')
-    normalized_lines = [closures.normalize_text_with_rules(line, rules) for line in document_lines]
 
-    # 5. Probar extract_references_context()
-    print("\n--- Probando extract_references_context() ---")
-    contexts = linker.extract_references_context(normalized_lines)
+    # Probar extract_references_context()
+    # print("\n--- Probando extract_references_context() ---")
+    contexts = linker.extract_references_context(document_lines)
 
-    for c in contexts:
-      print(f"ref : {c['reference']}, context: {c['context']}")
+    # for c in contexts:
+      # print(f"ref : {c['reference']}, context: {c['context']}")
     
     # Valida la estructura retornada
     self.assertTrue(len(contexts) > 0, "Debería haberse extraído contexto del documento.")
