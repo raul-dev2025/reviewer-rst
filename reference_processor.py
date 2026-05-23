@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import os, re
-
 this = None
 
 def group_refs_blocks(lines):
@@ -56,7 +54,7 @@ def group_refs_blocks(lines):
               in_reference_block = False
               continue
 
-            raise StructuralIntegrityError(i + 1, "Falta indentación en bloque de referencia")
+            raise this.StructuralIntegrityError(i + 1, "Falta indentación en bloque de referencia")
 
             all_ref_blocks.append(current_block)
             current_block = []
@@ -69,7 +67,7 @@ def group_refs_blocks(lines):
     if current_block:
       all_ref_blocks.append(current_block)
 
-    prepare_file(all_ref_blocks)
+    this.prepare_file(all_ref_blocks)
     return all_ref_blocks
 
 def extract_references_context(context_input):
@@ -86,7 +84,7 @@ def extract_references_context(context_input):
       context_input = normalize_text_with_rules(context_input, rules)
 
     full_text = ' '.join(context_input) if isinstance(context_input, list) else context_input
-    matches = list(reference_pattern.finditer(full_text))
+    matches = list(this.reference_pattern.finditer(full_text))
 
     for match in matches:
       start_idx = match.start()
