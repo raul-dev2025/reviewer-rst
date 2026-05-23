@@ -133,6 +133,7 @@ def bind_dependencies():
     processor.StructuralIntegrityError = exceptions.StructuralIntegrityError
     processor.this = current_module
     file_manager.this = current_module
+    reference_processor.this = current_module
     closures.re = re
     closures.this = current_module
     formatter.this = current_module
