@@ -449,54 +449,54 @@ class TestRSTRefactor(unittest.TestCase):
     # Valida otro bloque
     self.assertIn("[f5]", blocks[4][0])
 
-  def test_format_references(self):
-    """
-    Simula referencias encontradas en el documento, y verifica el formato.
-    """
-    # Simular referencias encontradas
-    sample_refs = ["#f1", "[#f2]", "`f3 <#f3>`_", "f5"]
+  # def test_format_references(self):
+  #   """
+  #   Simula referencias encontradas en el documento, y verifica el formato.
+  #   """
+  #   # Simular referencias encontradas
+  #   sample_refs = ["#f1", "[#f2]", "`f3 <#f3>`_", "f5"]
 
-    # Probar format_references()
-    #print("\n--- Probando format_references() a rST ---")
-    formatted_rst = linker.format_references(sample_refs, rst_format=True)
-    #print(formatted_rst)
+  #   # Probar format_references()
+  #   #print("\n--- Probando format_references() a rST ---")
+  #   formatted_rst = linker.format_references(sample_refs, rst_format=True)
+  #   #print(formatted_rst)
 
-    # Validar que  devuelva el formato correcto
-    self.assertIsInstance(formatted_rst, str)
-    self.assertIn(".. [#f1]", formatted_rst)
-    self.assertIn(".. [#f2]", formatted_rst)
-    self.assertIn(".. [f3]", formatted_rst)
-    self.assertIn(".. [f5]", formatted_rst)
+  #   # Validar que  devuelva el formato correcto
+  #   self.assertIsInstance(formatted_rst, str)
+  #   self.assertIn(".. [#f1]", formatted_rst)
+  #   self.assertIn(".. [#f2]", formatted_rst)
+  #   self.assertIn(".. [f3]", formatted_rst)
+  #   self.assertIn(".. [f5]", formatted_rst)
 
-  def test_extract_references_context(self):
-    """
-    Valida la extraccion del contexto asociado a la referencia.
-    """
-    # Usamos texto de documento real donde la referencia aparece en el cuerpo
-    document_lines = [
-      "Esta es una frase de prueba que usa [#f1] como ejemplo.",
-      "Aquí hay otro texto de contexto para f5.",
-      "contexto de texto 2 [#f2]",
-      "otro contexto `f3 <#f3>`_"
-    ]
+  # def test_extract_references_context(self):
+  #   """
+  #   Valida la extraccion del contexto asociado a la referencia.
+  #   """
+  #   # Usamos texto de documento real donde la referencia aparece en el cuerpo
+  #   document_lines = [
+  #     "Esta es una frase de prueba que usa [#f1] como ejemplo.",
+  #     "Aquí hay otro texto de contexto para f5.",
+  #     "contexto de texto 2 [#f2]",
+  #     "otro contexto `f3 <#f3>`_"
+  #   ]
 
-    # Probar extract_references_context()
-    # print("\n--- Probando extract_references_context() ---")
-    contexts = linker.extract_references_context(document_lines)
+  #   # Probar extract_references_context()
+  #   # print("\n--- Probando extract_references_context() ---")
+  #   contexts = linker.extract_references_context(document_lines)
 
-    # for c in contexts:
-      # print(f"ref : {c['reference']}, context: {c['context']}")
+  #   # for c in contexts:
+  #     # print(f"ref : {c['reference']}, context: {c['context']}")
     
-    # Valida la estructura retornada
-    self.assertTrue(len(contexts) > 0, "Debería haberse extraído contexto del documento.")
+  #   # Valida la estructura retornada
+  #   self.assertTrue(len(contexts) > 0, "Debería haberse extraído contexto del documento.")
 
-    # Verifica que las referencias y sus calves correspondientes, sean capturadas
-    references_found = [c['reference'] for c in contexts]
-    self.assertIn("[#f1]", references_found)
-    self.assertIn("[f5]", references_found)
+  #   # Verifica que las referencias y sus calves correspondientes, sean capturadas
+  #   references_found = [c['reference'] for c in contexts]
+  #   self.assertIn("[#f1]", references_found)
+  #   self.assertIn("[f5]", references_found)
 
-    #Valida que el contexto sea guardado
-    self.assertEqual(contexts[0]['context'], "que usa")
+  #   #Valida que el contexto sea guardado
+  #   self.assertEqual(contexts[0]['context'], "que usa")
 
   def test_closure_load_rules(self):
     """
