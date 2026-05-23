@@ -105,3 +105,5 @@ def bind_dependencies():
     current_module = sys.modules[__name__]
     cleaner.regex = regex
     cleaner.this = current_module
+    closures.re = re
+    closures.this = current_module
