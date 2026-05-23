@@ -1,6 +1,5 @@
 import unittest
-from processor import process_rst_blocks  # Tu módulo actual
-from exceptions import StructuralIntegrityError, ExportPathError
+import linker
 
 class TestRSTExceptions(unittest.TestCase):
 
@@ -13,29 +12,26 @@ class TestRSTExceptions(unittest.TestCase):
             "mal indentada" # Esto debería disparar StructuralIntegrityError
         ]
         
-        with self.assertRaises(StructuralIntegrityError):
+        with self.assertRaises(linker.StructuralIntegrityError):
             # Aquí llamaremos a la lógica de la Fase 3
-            process_rst_blocks(lines)
+            linker.process_rst_blocks(lines)
 
     def test_structural_integrity_trigger(self):
       """
       Validar que se puede lanzar la excepción de integridad
       """
-      with self.assertRaises(StructuralIntegrityError) as cm:
+      with self.assertRaises(linker.StructuralIntegrityError) as cm:
         # Simula la detección de error de indentación
-        raise StructuralIntegrityError(42, "Falta indentación en bloque de referencia")
+        raise linker.StructuralIntegrityError(42, "Falta indentación en bloque de referencia")
       self.assertIn("línea 42", str(cm.exception))
 
     def test_export_path_error(self):
       """Validar error cuando la ruta de exportación es un archivo y no un directorio."""
-      invalid_path = "/tmp/test_file.txt"
-      with open(invalid_path, 'w') as f: f.write("dummy")
-      
-      # Debería fallar al intentar crear un directorio donde hay un archivo
-      with self.assertRaises(Exception):
-           # Simulación de lógica de guardado fallida
-           if os.path.isfile("/tmp/findOut"): 
-               raise ExportPathError("/tmp/findOut", "es un archivo existente")
+      linker.bind_dependencies()
+      invalid_path = "/tmp/findOut"
+
+      if linker.os.path.exists(invalid_path) and not linker.os.path.isdir(invalid_path):
+        raise linker.ExportPathError(invalid_path, "Existe un archivo con el mismo nombre")        
   
 
 
