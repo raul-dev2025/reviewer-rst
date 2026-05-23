@@ -21,6 +21,7 @@ group_refs_blocks = None
 extract_references_context = None
 format_references = None
 rst_title_formatter = None
+is_potential_title_text = None
 StructuralIntegrityError = None
 ExportPathError = None
 clean_line_content = None
@@ -47,7 +48,7 @@ def bind_dependencies():
     # file_manager
     global read_file, save_file, create_backup, export_refs_to_out_files, prepare_file
     # processor
-    global is_underline, process_rst_blocks, identify_literal_blocks, extract_literal_blocks, reinject_literal_blocks, is_structural_break, get_document_titles, group_lines_into_raw_blocks, filter_and_format_blocks
+    global is_underline, process_rst_blocks, identify_literal_blocks, extract_literal_blocks, reinject_literal_blocks, is_structural_break, get_document_titles, group_lines_into_raw_blocks, filter_and_format_blocks, is_potential_title_text
     # reference_processor
     global group_refs_blocks, extract_references_context, format_references
     # formatter
@@ -102,6 +103,7 @@ def bind_dependencies():
     get_document_titles = processor.get_document_titles
     group_lines_into_raw_blocks = processor.group_lines_into_raw_blocks
     filter_and_format_blocks = processor.filter_and_format_blocks
+    is_potential_title_text = processor.is_potential_title_text
 
     # reference_processor
     group_refs_blocks = reference_processor.group_refs_blocks
@@ -127,7 +129,9 @@ def bind_dependencies():
     current_module = sys.modules[__name__]
     cleaner.regex = regex
     cleaner.this = current_module
+    processor.re = re
     processor.StructuralIntegrityError = exceptions.StructuralIntegrityError
+    processor.this = current_module
     file_manager.this = current_module
     closures.re = re
     closures.this = current_module
