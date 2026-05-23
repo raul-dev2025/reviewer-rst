@@ -21,6 +21,7 @@ group_refs_blocks = None
 extract_references_context = None
 format_references = None
 rst_title_formatter = None
+clean_line_content = None
 get_level_from_symbol = None
 render_title = None
 clean_line_content = None
@@ -100,3 +101,7 @@ def bind_dependencies():
     # cleaner
     strip_metadata = cleaner.strip_metadata
     clean_line_content = cleaner.clean_line_content
+    # Inyección de la librería estándar
+    current_module = sys.modules[__name__]
+    cleaner.regex = regex
+    cleaner.this = current_module
