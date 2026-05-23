@@ -20,7 +20,7 @@ def main():
     file_args = [arg for arg in sys.argv[1:] if arg != "--seek-refs"]
 
     for file_path in file_args:
-        content = linker.read_file(file_path)
+        content = linker.file_manager.read_file(file_path)
         lines = content.splitlines()
         filename_base = os.path.splitext(os.path.basename(file_path))[0]
         
