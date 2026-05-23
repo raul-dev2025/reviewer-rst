@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-from processor import is_potential_title_text, is_underline
+
+this = None
 
 LEVEL_STYLES = {
     0: {'char': "=", 'overline': True},  # Título del documento (Caja)
@@ -78,7 +79,7 @@ def rst_title_formatter(blocks, filename_base):
     current = blocks[i].strip()
     next_b = blocks[i+1].strip() if i+1 < len(blocks) else ""
 
-    if is_potential_title_text(current) and is_underline(next_b):
+    if this.is_potential_title_text(current) and this.is_underline(next_b):
       symbol = next_b[0]
 
       # Establece el nivel
