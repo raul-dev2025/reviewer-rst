@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import os, shutil
-from datetime import datetime
+this = None
 
 def create_backup(file_path):
     """
@@ -9,13 +8,13 @@ def create_backup(file_path):
     Si el archivo no existe, levanta una excepción.
     """
     if not os.path.isfile(file_path):
-        raise FileNotFoundError(f"No se encontró el archivo: {file_path}")
+        raise this.FileNotFoundError(f"No se encontró el archivo: {file_path}")
     
     # Creamos un backup con extensión .bak
     # Opcionalmente podrías añadir un timestamp: .20260415.bak
     backup_path = f"{file_path}.bak"
     try:
-        shutil.copy2(file_path, backup_path)
+        this.shutil.copy2(file_path, backup_path)
         print(f"🚀 Copia de seguridad creada en: {backup_path}")
         return backup_path
     except Exception as e:
@@ -36,26 +35,24 @@ def export_refs_to_out_files(all_refs, section_name=None, original_blocks=None):
     """
     Orquesta la generación y escritura de los archivos de salida divididos por formato.
     """
-    # Importa las funciones necesarias desde el modulo de referencias
-    from reference_processor import extract_references_context, format_references
-
     output_path = "/tmp/findOut"
-    if not os.path.exists(output_path):
-        os.makedirs(output_path)
+    if not this.os.path.exists(output_path):
+        this.os.makedirs(output_path)
 
+    section_name = section_name or "referencias_anonimas"
     safe_section_name = "".join([c if c.isalnum() else "_" for c in section_name]).strip("_")
 
     file_name_md = f"out_{safe_section_name}.md"
     file_name_rst = f"out_{safe_section_name}.rst"
 
-    full_path_md = os.path.join(output_path, file_name_md)
-    full_path_rst = os.path.join(output_path, file_name_rst)
+    full_path_md = this.os.path.join(output_path, file_name_md)
+    full_path_rst = this.os.path.join(output_path, file_name_rst)
 
     # 1. Guarda el contexto
-    context_lines = extract_references_context(all_refs)
+    context_lines = this.extract_references_context(all_refs)
 
     # 2. Formato rST para las referencias
-    content_rst = format_references(all_refs, rst_format=True)
+    content_rst = this.format_references(all_refs, rst_format=True)
 
     # 3. Contexto y referencias en formato markdown
     content_md_lines = [f"{item['reference']} - Contexto: {item['context']}" for item in context_lines]
@@ -68,8 +65,8 @@ def export_refs_to_out_files(all_refs, section_name=None, original_blocks=None):
         content_md += "".join(block)
 
     # 5. Guardar archivos
-    save_file(full_path_md, content_md)
-    save_file(full_path_rst, content_rst)
+    this.save_file(full_path_md, content_md)
+    this.save_file(full_path_rst, content_rst)
 
     print(f"📦 Sección exportada a: {full_path_md} y {full_path_rst}")
 
@@ -85,12 +82,12 @@ def prepare_file(ref_list):
       content_list.append(line)
 
   output_dir = "/tmp/findOut"
-  os.makedirs(output_dir, exist_ok=True)
+  this.os.makedirs(output_dir, exist_ok=True)
 
   if content_list:
     name = (content_list[0]).strip().lower()
     file_name = f"{name}.rst"
-    file_path = os.path.join(output_dir, file_name)
+    file_path = this.os.path.join(output_dir, file_name)
 
     content = "\n".join(content_list)
 
