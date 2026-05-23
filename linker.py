@@ -24,6 +24,12 @@ rst_title_formatter = None
 StructuralIntegrityError = None
 ExportPathError = None
 clean_line_content = None
+PANDOC_LINK_PATTERN = None
+PANDOC_ANCHOR_PATTERN = None
+FOOTNOTE_PATTERN = None
+reference_pattern = None
+ADMIN_SECTION_PATTERN = None
+RST_UNDERLINE_PATTERN = None
 get_level_from_symbol = None
 render_title = None
 clean_line_content = None
@@ -48,6 +54,9 @@ def bind_dependencies():
     global get_level_from_symbol, render_title, rst_title_formatter
     # cleaner
     global clean_line_content, strip_metadata
+    # regex
+    global reference_pattern, ADMIN_SECTION_PATTERN, RST_UNDERLINE_PATTERN, PANDOC_LINK_PATTERN, PANDOC_ANCHOR_PATTERN, FOOTNOTE_PATTERN
+
 
     # Inyección de excepiones
     reference_processor.StructuralIntegrityError = exceptions.StructuralIntegrityError
@@ -56,13 +65,12 @@ def bind_dependencies():
     ExportPathError = exceptions.ExportPathError
     
     # Inyección de constantes de regex en cleaner
-    cleaner.PANDOC_LINK_PATTERN = regex.PANDOC_LINK_PATTERN
-    cleaner.PANDOC_ANCHOR_PATTERN = regex.PANDOC_ANCHOR_PATTERN
-    cleaner.RST_HEADER_PATTERN = regex.RST_HEADER_PATTERN
-    cleaner.CONTENTS_DIRECTIVE_PATTERN = regex.CONTENTS_DIRECTIVE_PATTERN
+    PANDOC_LINK_PATTERN = regex.PANDOC_LINK_PATTERN
+    PANDOC_ANCHOR_PATTERN = regex.PANDOC_ANCHOR_PATTERN
+    FOOTNOTE_PATTERN = regex.FOOTNOTE_PATTERN
+    RST_HEADER_PATTERN = regex.RST_HEADER_PATTERN
+    CONTENTS_DIRECTIVE_PATTERN = regex.CONTENTS_DIRECTIVE_PATTERN
     
-    # processor.id_extractor_pattern = regex.id_extractor_pattern
-
     # Inyección de patrones en processor
     processor.ADMIN_SECTION_PATTERN = regex.ADMIN_SECTION_PATTERN
     processor.FOOTNOTE_PATTERN = regex.FOOTNOTE_PATTERN
@@ -70,7 +78,9 @@ def bind_dependencies():
 
     # reference_processor module
     reference_processor.reference_pattern = regex.reference_pattern
-    reference_processor.rules = closures.load_dynamic_rules('archivo_regex.txt')
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    ruta_regex = os.path.join(base_dir, 'archivo_regex.txt')
+    reference_processor.rules = closures.load_dynamic_rules(ruta_regex)
     reference_processor.normalize_text_with_rules = closures.normalize_text_with_rules
     reference_processor.StructuralIntegrityError = exceptions.StructuralIntegrityError
 
@@ -104,6 +114,15 @@ def bind_dependencies():
     # cleaner
     strip_metadata = cleaner.strip_metadata
     clean_line_content = cleaner.clean_line_content
+
+    # regex
+    reference_pattern = regex.reference_pattern
+    ADMIN_SECTION_PATTERN = regex.ADMIN_SECTION_PATTERN
+    RST_UNDERLINE_PATTERN = regex.RST_UNDERLINE_PATTERN
+    PANDOC_LINK_PATTERN = regex.PANDOC_LINK_PATTERN
+    PANDOC_ANCHOR_PATTERN = regex.PANDOC_ANCHOR_PATTERN
+    FOOTNOTE_PATTERN = regex.FOOTNOTE_PATTERN    
+
     # Inyección de la librería estándar
     current_module = sys.modules[__name__]
     cleaner.regex = regex
