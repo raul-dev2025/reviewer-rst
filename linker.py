@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import re
+import re, os, sys, shutil
 import file_manager, processor, reference_processor, formatter, cleaner, regex, closures
 
 # Definimos los símbolos a nivel de módulo para que existan en el namespace
@@ -79,6 +79,7 @@ def bind_dependencies():
     save_file = file_manager.save_file
     create_backup = file_manager.create_backup
     export_refs_to_out_files = file_manager.export_refs_to_out_files
+    prepare_file = file_manager.prepare_file
     reference_processor.prepare_file = file_manager.prepare_file
 
     # Procesamiento
@@ -108,5 +109,11 @@ def bind_dependencies():
     cleaner.regex = regex
     cleaner.this = current_module
     processor.StructuralIntegrityError = exceptions.StructuralIntegrityError
+    file_manager.this = current_module
     closures.re = re
     closures.this = current_module
+    file_manager.os = os
+    file_manager.shutil = shutil
+    file_manager.FileNotFoundError = FileNotFoundError
+    file_manager.ExportPathError = exceptions.ExportPathError
+    file_manager.this = current_module
