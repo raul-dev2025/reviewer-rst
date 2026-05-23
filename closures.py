@@ -1,4 +1,6 @@
-import re
+# -*- coding: utf-8 -*-
+
+this = None
 
 def build_match_and_apply(pattern, search, replace):
     """
@@ -6,10 +8,10 @@ def build_match_and_apply(pattern, search, replace):
     dinámicamente cadenas basándose en reglas externas.
     """
     def matches_rules(word):
-        return bool(re.search(pattern, word))
+        return bool(this.re.search(pattern, word))
 
     def apply_rule(word):
-        return re.sub(search, replace, word)
+        return this.re.sub(search, replace, word)
 
     return [matches_rules, apply_rule]
 
