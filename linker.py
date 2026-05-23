@@ -21,6 +21,8 @@ group_refs_blocks = None
 extract_references_context = None
 format_references = None
 rst_title_formatter = None
+StructuralIntegrityError = None
+ExportPathError = None
 clean_line_content = None
 get_level_from_symbol = None
 render_title = None
@@ -34,6 +36,8 @@ def bind_dependencies():
     """
     import exceptions
 
+    # Exceptions
+    global StructuralIntegrityError, ExportPathError, RSTProcessorError
     # file_manager
     global read_file, save_file, create_backup, export_refs_to_out_files, prepare_file
     # processor
@@ -47,12 +51,9 @@ def bind_dependencies():
 
     # Inyección de excepiones
     reference_processor.StructuralIntegrityError = exceptions.StructuralIntegrityError
-
-    # Inyección de la librería estándar
-    cleaner.re = re
-    processor.re = re
-    processor.this = processor
-    reference_processor.this = processor
+    processor.StructuralIntegrityError = exceptions.StructuralIntegrityError
+    StructuralIntegrityError = exceptions.StructuralIntegrityError
+    ExportPathError = exceptions.ExportPathError
     
     # Inyección de constantes de regex en cleaner
     cleaner.PANDOC_LINK_PATTERN = regex.PANDOC_LINK_PATTERN
@@ -71,6 +72,7 @@ def bind_dependencies():
     reference_processor.reference_pattern = regex.reference_pattern
     reference_processor.rules = closures.load_dynamic_rules('archivo_regex.txt')
     reference_processor.normalize_text_with_rules = closures.normalize_text_with_rules
+    reference_processor.StructuralIntegrityError = exceptions.StructuralIntegrityError
 
     # Exposición de símbolos(GateWay)
     read_file = file_manager.read_file
@@ -105,5 +107,6 @@ def bind_dependencies():
     current_module = sys.modules[__name__]
     cleaner.regex = regex
     cleaner.this = current_module
+    processor.StructuralIntegrityError = exceptions.StructuralIntegrityError
     closures.re = re
     closures.this = current_module
