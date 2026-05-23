@@ -131,6 +131,7 @@ def bind_dependencies():
     file_manager.this = current_module
     closures.re = re
     closures.this = current_module
+    formatter.this = current_module
     file_manager.os = os
     file_manager.shutil = shutil
     file_manager.FileNotFoundError = FileNotFoundError
