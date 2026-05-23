@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
 
-import re
-import cleaner
-
 this = None
 
 def is_underline(line):
@@ -165,7 +162,6 @@ def is_legacy_toc(clean_text, doc_titles):
 
     return False
 
-
 def get_toc_directive():
   """
   Directiva estandar para tabla de contenidos 
@@ -186,8 +182,6 @@ def validate_structural_integrity(lines):
     ser ejecutada independientemente del flujo, evitando acoplar la responsabilidad
     al modo seek_refs o a la agrupación de bloques.
     """
-    from exceptions import StructuralIntegrityError
-
     in_reference_block = False
     for i, line in enumerate(lines):
         stripped = line.strip()
@@ -211,7 +205,7 @@ def validate_structural_integrity(lines):
 
           if not is_indented:
             if not stripped.startswith(".. [") and not stripped.startswith(":"):
-              raise StructuralIntegrityError(i + 1, "Falta indentación en bloque de referencia")
+              raise this.StructuralIntegrityError(i + 1, "Falta indentación en bloque de referencia")
             else:
               in_reference_block = False
 
@@ -254,8 +248,6 @@ def group_lines_into_raw_blocks(lines, seek_refs=False):
   """
   Agrupa líneas en bloques lógicos. Cohesiona parrafos fragmentados.
   """
-  from processor import is_structural_break, is_likely_same_paragraph
-
   raw_blocks = []
   current_acc = []
 
@@ -299,7 +291,7 @@ def filter_and_format_blocks(raw_blocks, doc_titles):
 
   for rb in raw_blocks:
     # Limpiamos lo que no pudo Pandoc
-    clean_text = cleaner.clean_line_content(rb)
+    clean_text = this.clean_line_content(rb)
 
     # comprueba si es el indice .md
     if is_legacy_toc(clean_text, doc_titles):
