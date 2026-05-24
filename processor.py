@@ -235,12 +235,16 @@ def get_document_titles(lines):
   Busca los titulos en el documento
   Basa su logica en is_potential_title_text e is_underline.
   """
-  titles = []
+  titles = {}
   for i in range(len(lines) - 1):
     current = lines[i].strip()
     next_line = lines[i+1].strip()
     if is_potential_title_text(current) and is_underline(next_line):
-      titles.append(current)
+      titles[current] = {
+        "char" : next_line[0],
+        "length": len(next_line)
+      }
+
   return titles
 
 # El evaluador de continuidad
