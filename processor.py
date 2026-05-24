@@ -217,16 +217,16 @@ def process_rst_blocks(lines, seek_refs=False):
   """
   validate_structural_integrity(lines)
 
-  titles = get_document_titles(lines)
-
   raw_blocks = group_lines_into_raw_blocks(lines, seek_refs=seek_refs)
 
   if seek_refs:
     # Evita pasar el filtro rST.
     return raw_blocks
     
-  # Flujo estandar 
-  final_blocks = filter_and_format_blocks(raw_blocks, titles)
+  # Flujo estandar
+  titles = get_document_titles(lines)
+  final_blocks = filter_and_format_blocks(raw_blocks, titles, seek_refs=seek_refs)
+
   return final_blocks
 
 # El recolector
