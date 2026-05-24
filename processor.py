@@ -287,7 +287,7 @@ def group_lines_into_raw_blocks(lines, seek_refs=False):
   return raw_blocks
 
 # El filtro de bloques
-def filter_and_format_blocks(raw_blocks, doc_titles):
+def filter_and_format_blocks(raw_blocks, doc_titles, seek_refs=False):
   """
   Limpia, filtra y añade la directiva rST (TOC).
   """
