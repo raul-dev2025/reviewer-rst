@@ -37,7 +37,7 @@ def export_refs_to_out_files(all_refs, section_name=None, original_blocks=None):
     """
     output_path = "/tmp/findOut"
     if not this.os.path.exists(output_path):
-        this.os.makedirs(output_path)
+        this.os.makedirs(output_path, exist_ok=True)
 
     section_name = section_name or "referencias_anonimas"
     safe_section_name = "".join([c if c.isalnum() else "_" for c in section_name]).strip("_")
