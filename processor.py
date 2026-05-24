@@ -298,11 +298,7 @@ def filter_and_format_blocks(raw_blocks, doc_titles, seek_refs=False):
 
   for rb in raw_blocks:
     # Limpiamos lo que no pudo Pandoc
-    clean_text = this.clean_line_content(rb)
-
-    # comprueba si es el indice .md
-    if is_legacy_toc(clean_text, doc_titles):
-      continue
+    clean_text = this.clean_line_content(rb) if seek_refs else rb
 
     # Despues de limpiar, guardamos si hay contenido
     if clean_text:
