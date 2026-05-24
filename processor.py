@@ -302,7 +302,16 @@ def filter_and_format_blocks(raw_blocks, doc_titles, seek_refs=False):
 
     # Despues de limpiar, guardamos si hay contenido
     if clean_text:
-      blocks.append(clean_text)
+      if clean_text in doc_titles:
+        title_meta = doc_titles[clean_text]
+        blocks.append(f"{clean_text}\n{title_meta['char'] * title_meta['length']}")
+      elif is_legacy_toc(clean_text, doc_titles):
+        # ignora el subrayado original
+        continue
+      elif any(clean_text == meta["char"] * meta["length"] for meta in doc_titles.values()):
+        continue
+      else:
+        blocks.append(clean_text)
 
   return blocks
 
