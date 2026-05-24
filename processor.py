@@ -271,7 +271,10 @@ def group_lines_into_raw_blocks(lines, seek_refs=False):
           should_close = True
       elif current_acc:
         should_close = True
-    elif is_structural_break(line, False):
+    elif is_structural_break(line, False) or (next_line and is_underline(next_line)):
+      should_close = True
+
+    if is_underline(line):
       should_close = True
 
     if should_close and current_acc:
