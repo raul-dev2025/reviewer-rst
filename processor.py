@@ -183,6 +183,7 @@ def validate_structural_integrity(lines):
     al modo seek_refs o a la agrupación de bloques.
     """
     in_reference_block = False
+    has_reference = False
     for i, line in enumerate(lines):
         stripped = line.strip()
 
@@ -198,9 +199,10 @@ def validate_structural_integrity(lines):
           in_reference_block = False
           continue
 
-        if is_start_of_ref or is_footnote:
-          in_reference_block = True
-          continue
+        if is_start_of_ref or is_footnote or is_hybrid_ref:
+          if is_start_of_ref or is_footnote:
+            in_reference_block = True
+          has_reference = True
 
         if in_reference_block:
           is_indented = line.startswith(" ") or line.startswith("\t")
