@@ -209,9 +209,14 @@ def validate_structural_integrity(lines):
 
           if not is_indented:
             if not stripped.startswith(".. [") and not stripped.startswith(":"):
-              raise this.StructuralIntegrityError(i + 1, "Falta indentación en bloque de referencia")
+              if is_potential_title_text(line) or len(stripped) > 0:
+                in_reference_block = False
+              else:
+                raise this.StructuralIntegrityError(i + 1, "Falta indentación en bloque de referencia")
             else:
               in_reference_block = False
+
+    return has_reference
 
 # El maestro de ceremonias
 def process_rst_blocks(lines, seek_refs=False):
