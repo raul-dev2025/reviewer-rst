@@ -224,7 +224,15 @@ def process_rst_blocks(lines, seek_refs=False):
   Coordina la secuencia de llamadas a funcion, en el orden
   correcto y esperado.
   """
-  validate_structural_integrity(lines)
+  has_refs = validate_structural_integrity(lines)
+
+  if not seek_refs and has_refs:
+    base_dir = this.os.path.dirname(this.os.path.abspath(__file__))
+    resource_path = this.os.path.join(base_dir, "warnings.rst")
+    if this.os.path.exists(resource_path):
+      msg = getattr(this, 'read_file', lambda p: "")(resource_path)
+      if msg:
+        print(msg)
 
   raw_blocks = group_lines_into_raw_blocks(lines, seek_refs=seek_refs)
 
@@ -323,4 +331,3 @@ def filter_and_format_blocks(raw_blocks, doc_titles, seek_refs=False):
         blocks.append(clean_text)
 
   return blocks
-
