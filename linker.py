@@ -142,3 +142,4 @@ def bind_dependencies():
     file_manager.FileNotFoundError = FileNotFoundError
     file_manager.ExportPathError = exceptions.ExportPathError
     file_manager.this = current_module
+    processor.read_file = file_manager.read_file
