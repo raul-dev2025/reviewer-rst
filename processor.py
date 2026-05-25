@@ -192,6 +192,8 @@ def validate_structural_integrity(lines):
         is_start_of_ref = stripped.startswith(".. [") and "]" in stripped
         is_footnote = footnote_patt.match(stripped) if footnote_patt else False
 
+        is_hybrid_ref = "<#" in stripped or "[#f" in stripped
+
         if not stripped:
           in_reference_block = False
           continue
