@@ -50,10 +50,13 @@ def main():
             # 3. PROCESAMIENTO: Coordinación de bloques (Mutex automático en False)
             blocks = linker.process_rst_blocks(clean_text.splitlines())
             
-            # 4. FORMATEO: Títulos y jerarquía dinámica
-            formatted_rst = linker.rst_title_formatter(blocks, filename_base)
+            # 4. Captura metadatos de titulos
+            titles = linker.get_document_titles(clean_text.splitlines())
+
+            # 5. FORMATEO: Títulos y jerarquía dinámica
+            formatted_rst = linker.rst_title_formatter(blocks, filename_base, titles)
             
-            # 5. RESTAURACIÓN: Reinyectar el código original
+            # 6. RESTAURACIÓN: Reinyectar el código original
             final_output = linker.reinject_literal_blocks(formatted_rst, blocks_dict)
             
             # Guardado final
