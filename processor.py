@@ -252,14 +252,14 @@ def process_rst_blocks(lines, seek_refs=False):
 # El recolector
 def get_document_titles(lines):
   """
-  Busca los titulos en el documento
-  Basa su logica en is_potential_title_text e is_underline.
+  Busca los titulos en el documento y los guarda como bloque en un diccionario.
   """
   titles = {}
   for i in range(len(lines) - 1):
     current = lines[i].strip()
     next_line = lines[i+1].strip()
     if is_potential_title_text(current) and is_underline(next_line):
+      clean_text = this.clean_line_content(current)
       titles[current] = {
         "char" : next_line[0],
         "length": len(next_line)
@@ -318,17 +318,14 @@ def filter_and_format_blocks(raw_blocks, doc_titles, seek_refs=False):
 
   for rb in raw_blocks:
     # Limpiamos lo que no pudo Pandoc
-    clean_text = this.clean_line_content(rb) if seek_refs else rb
+    clean_text = this.clean_line_content(rb, seek_refs=seek_refs)
 
     # Despues de limpiar, guardamos si hay contenido
     if clean_text:
       if clean_text in doc_titles:
-        title_meta = doc_titles[clean_text]
-        blocks.append(f"{clean_text}\n{title_meta['char'] * title_meta['length']}")
-      elif is_legacy_toc(clean_text, doc_titles):
+        blocks.append(clean_text)
+      elif is_legacy_toc(clean_text, doc_titles) or is_underline(clean_text):
         # ignora el subrayado original
-        continue
-      elif any(clean_text == meta["char"] * meta["length"] for meta in doc_titles.values()):
         continue
       else:
         blocks.append(clean_text)
