@@ -69,7 +69,7 @@ def render_title(text, level, filename_base, state):
   return "\n".join(output)
 
 # El organizador
-def rst_title_formatter(blocks, filename_base):
+def rst_title_formatter(blocks, filename_base, doc_titles):
   state = {
     "mapping": {},           # Ej: {'=': 0, '-': 1}
     "next_available_level": 0, # Empezamos en 0 (Título Principal)
@@ -81,20 +81,20 @@ def rst_title_formatter(blocks, filename_base):
   i = 0 
   while i < len(blocks):
     current = blocks[i].strip()
-    next_b = blocks[i+1].strip() if i+1 < len(blocks) else ""
 
-    if this.is_potential_title_text(current) and this.is_underline(next_b):
-      symbol = next_b[0]
+    if current in doc_titles:
+      meta = doc_titles[current]
+      symbol = meta["char"]
 
       # Establece el nivel
       level = get_level_from_symbol(symbol, state)
 
-      # Imprime
+      # Renderiza anclaje
       rendered = render_title(current, level, filename_base, state)
       final_output.append(rendered)
 
       # Salta texto y subrayado
-      i += 2
+      i += 1
 
     else:
       if current:
@@ -104,5 +104,3 @@ def rst_title_formatter(blocks, filename_base):
       i += 1
 
   return "\n".join(final_output)
-
-
