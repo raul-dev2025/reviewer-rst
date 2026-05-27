@@ -3,14 +3,18 @@
 # Distributed under the terms of the MIT License.
 # See LICENSE file in the project root for full license information.
 
-def clean_line_content(line):
-    """Elimina anclajes de Pandoc y repara backticks huérfanos."""
-    # 1. Elimina el formato de enlace rST dejando solo el texto: `Texto <#ref>`__ -> Texto
-    line = this.re.sub(this.PANDOC_LINK_PATTERN, r'\1', line)
 
-    # 2. Eliminar anclajes sueltos <#i1i2>`__ 
-    line = this.re.sub(this.PANDOC_ANCHOR_PATTERN, '', line)
+def clean_line_content(line, seek_refs=False):
+    """Elimina anclajes de Pandoc y repara backticks huérfanos."""
+    if not seek_refs:
+      # Modo normal, elimina backticks simples
+      line = this.re.sub(this.PANDOC_LINK_PATTERN, r'\1\2', line)
     
+    # Modo estructural
+    # Hay que emparejar las referencias que encontremos, pero tambien borrar o modificar las  antiguas, para que guarden relacion sintactica, con el ancla que deberemos colocar al final del documento(seccion Referencias, agradecimientos y recursos ...)
+    else:
+      pass
+
     # 3. Reparar backticks huérfanos (solo si no es un enlace rST válido)
     if line.count('`') % 2 != 0:
         line = line.replace('`', '')

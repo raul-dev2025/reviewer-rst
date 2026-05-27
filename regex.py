@@ -11,7 +11,7 @@ REF_PANDOC = r'`[^`]+<#?[a-zA-Z0-9]+>`__'
 REF_DECLARATION = r'\.\.\s+\[#?[a-zA-Z0-9]+\]'
 
 # Patrones adicionales para limpieza y validación RST
-PANDOC_LINK_PATTERN = r'`([^<]+)\s*<[^>]+>`__'
+PANDOC_LINK_PATTERN = r'`([^<]+)\s*(<#[^>]+>)`__'
 PANDOC_ANCHOR_PATTERN = r'\s*<#?[a-zA-Z0-9]+>`__'
 RST_HEADER_PATTERN = r'\.\. _[a-zA-Z0-9_-]+:\n*'
 CONTENTS_DIRECTIVE_PATTERN = r'^\.\. contents::.*?\n(\s+:[a-z]+:.*?\n)*'
