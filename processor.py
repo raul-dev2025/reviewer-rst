@@ -142,11 +142,10 @@ def is_legacy_toc(clean_text, doc_titles):
     text_base = this.re.sub(this.TOC_LIST_PREFIX_PATTERN, '', text_stripped)
     text_base = this.re.sub(this.TOC_ANCHOR_REMOVE_PATTERN, '', text_base).strip()
 
-    # ESCENARIO 2: Múltiples elementos de índice en una sola línea.
-    # El caso típico de Pandoc: "`Introducción <#i1>`__ `Capa de memoria <#i2>`__"
-    # Tras pasar por cleaner.clean_line_content(), esto queda como "Introducción Capa de memoria".
-    # Validamos si la línea está compuesta exclusivamente por la concatenación de los títulos conocidos.
-    words_found = 0
+    if not text_base:
+        return False
+
+    clean_titles_set = set()
     for title in doc_titles:
         if title in text_snippet:
             words_found += 1
