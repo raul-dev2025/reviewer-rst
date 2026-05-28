@@ -11,7 +11,7 @@ REF_PANDOC = r'`[^`]+<#?[a-zA-Z0-9]+>`__'
 REF_DECLARATION = r'\.\.\s+\[#?[a-zA-Z0-9]+\]'
 
 # Patrones adicionales para limpieza y validación RST
-PANDOC_LINK_PATTERN = r'`([^<]+)\s*(<#[^>]+>)`__'
+PANDOC_LINK_PATTERN = r'`([^`<>]+(?:``[^`]+``[^`<>]*)*)\s*(<#?[a-zA-Z0-9_-]+>)`__'
 PANDOC_ANCHOR_PATTERN = r'\s*<#?[a-zA-Z0-9]+>`__'
 RST_HEADER_PATTERN = r'\.\. _[a-zA-Z0-9_-]+:\n*'
 CONTENTS_DIRECTIVE_PATTERN = r'^\.\. contents::.*?\n(\s+:[a-z]+:.*?\n)*'
@@ -35,3 +35,9 @@ FOOTNOTE_PATTERN = re.compile(r'^(\.\.\s+)?\[#?[a-zA-Z0-9]+\]')
 
 # Detecta subrayados rST (mínimo 3 caracteres de: = - ~ ^)
 RST_UNDERLINE_PATTERN = re.compile(r'^([=\-~^])\1{2,}$')
+
+# Detecta prefijos comunes de listas: guiones, asteriscos o números seguidos de punto o paréntesis (ej: "- ", "1. ", "2) ")
+TOC_LIST_PREFIX_PATTERN = re.compile(r'^\s*(?:[-*]|\d+[.)])\s*')
+
+# Detecta cualquier estructura de anclaje limpia o con almohadilla para removerla en la comparación (ej: "<#i1>__", "<i2>__")
+TOC_ANCHOR_REMOVE_PATTERN = re.compile(r'<#?[a-zA-Z0-9_-]+>')
