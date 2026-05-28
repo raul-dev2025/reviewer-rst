@@ -147,7 +147,17 @@ def is_legacy_toc(clean_text, doc_titles):
 
     clean_titles_set = set()
     for title in doc_titles:
-        if title in text_snippet:
+        t_base = this.re.sub(this.TOC_ANCHOR_REMOVE_PATTERN, '', title).strip()
+        if t_base:
+            clean_titles_set.add(t_base)
+
+    # Coincidencia directa con titulo real (COMENTADO / ELIMINADO)
+    # if text_base in clean_titles_set:
+    #   return True   
+
+    words_found = 0
+    for base_title in clean_titles_set:
+        if base_title in text_base:
             words_found += 1
 
     # Si la línea contiene más de un título conocido y su longitud es cercana 
