@@ -316,7 +316,6 @@ def filter_and_format_blocks(raw_blocks, doc_titles, seek_refs=False):
   """
 
   blocks = []
-  # Subimos la directiva TOC, al almacen de bloques
   blocks.extend(get_toc_directive())
 
   for rb in raw_blocks:
@@ -324,13 +323,16 @@ def filter_and_format_blocks(raw_blocks, doc_titles, seek_refs=False):
     clean_text = this.clean_line_content(rb, seek_refs=seek_refs)
 
     # Despues de limpiar, guardamos si hay contenido
-    if clean_text:
-      if clean_text in doc_titles:
-        blocks.append(clean_text)
-      elif is_legacy_toc(clean_text, doc_titles) or is_underline(clean_text):
-        # ignora el subrayado original
-        continue
-      else:
-        blocks.append(clean_text)
+    if not clean_text or this.is_underline(clean_text):
+      continue
+
+    if this.is_legacy_toc(clean_text, doc_titles):
+      continue
+
+    if clean_text in  doc_titles:
+      blocks.append(clean_text)
+      continue
+
+    blocks.append(clean_text)
 
   return blocks
