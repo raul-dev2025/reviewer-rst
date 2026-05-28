@@ -260,7 +260,7 @@ def get_document_titles(lines):
     next_line = lines[i+1].strip()
     if is_potential_title_text(current) and is_underline(next_line):
       clean_text = this.clean_line_content(current)
-      titles[current] = {
+      titles[clean_text] = {
         "char" : next_line[0],
         "length": len(next_line)
       }
