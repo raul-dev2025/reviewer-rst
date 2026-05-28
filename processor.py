@@ -138,16 +138,9 @@ def is_legacy_toc(clean_text, doc_titles):
     if not clean_text or not doc_titles:
         return False
 
-    # Normalizamos el bloque para evaluar su contenido sin ruido de espacios
-    text_snippet = clean_text.strip()
-
-    # ESCENARIO 1: El bloque es exactamente igual a uno de los títulos, 
-    # pero sabemos que los títulos reales van seguidos de un subrayado (is_underline).
-    # Si este bloque aparece suelto y aislado al inicio del archivo en el raw_blocks,
-    # y coincide con un título del documento, es altamente probable que sea una línea
-    # del índice viejo.
-    if text_snippet in doc_titles:
-        return True
+    text_stripped = clean_text.strip()
+    text_base = this.re.sub(this.TOC_LIST_PREFIX_PATTERN, '', text_stripped)
+    text_base = this.re.sub(this.TOC_ANCHOR_REMOVE_PATTERN, '', text_base).strip()
 
     # ESCENARIO 2: Múltiples elementos de índice en una sola línea.
     # El caso típico de Pandoc: "`Introducción <#i1>`__ `Capa de memoria <#i2>`__"
