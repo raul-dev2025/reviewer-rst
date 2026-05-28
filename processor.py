@@ -153,16 +153,17 @@ def is_legacy_toc(clean_text, doc_titles):
 
     # Coincidencia directa con titulo real (COMENTADO / ELIMINADO)
     # if text_base in clean_titles_set:
-    #   return True   
+    #   return True
 
     words_found = 0
     for base_title in clean_titles_set:
         if base_title in text_base:
             words_found += 1
 
-    # Si la línea contiene más de un título conocido y su longitud es cercana 
-    # a la suma de dichos títulos, confirmamos que es un residuo del índice.
     if words_found >= 2:
+        return True
+
+    if len(this.re.findall(this.TOC_ANCHOR_REMOVE_PATTERN, clean_text)) >= 2:
         return True
 
     return False
