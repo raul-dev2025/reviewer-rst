@@ -132,8 +132,8 @@ def reinject_literal_blocks(text, blocks_dict):
 
 def is_legacy_toc(clean_text, doc_titles):
     """
-    Determina si un bloque de texto limpio corresponde al antiguo índice
-    manual de Markdown/Pandoc basándose en la lista de títulos del documento.
+    Determina si un bloque corresponde a un antiguo índice manual (TOC residual)
+    saneando temporalmente la línea para identificar los 6 escenarios de Pandoc.
     """
     if not clean_text or not doc_titles:
         return False
