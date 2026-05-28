@@ -17,6 +17,7 @@ process_rst_blocks = None
 identify_literal_blocks = None
 extract_literal_blocks = None
 reinject_literal_blocks = None
+is_legacy_toc = None
 is_structural_break = None
 get_document_titles = None
 filter_and_format_blocks = None
@@ -52,7 +53,7 @@ def bind_dependencies():
     # file_manager
     global read_file, save_file, create_backup, export_refs_to_out_files, prepare_file
     # processor
-    global is_underline, process_rst_blocks, identify_literal_blocks, extract_literal_blocks, reinject_literal_blocks, is_structural_break, get_document_titles, group_lines_into_raw_blocks, filter_and_format_blocks, is_potential_title_text
+    global is_underline, process_rst_blocks, identify_literal_blocks, extract_literal_blocks, reinject_literal_blocks, is_structural_break, get_document_titles, is_legacy_toc, group_lines_into_raw_blocks, filter_and_format_blocks, is_potential_title_text
     # reference_processor
     global group_refs_blocks, extract_references_context, format_references
     # formatter
@@ -103,6 +104,7 @@ def bind_dependencies():
     identify_literal_blocks = processor.identify_literal_blocks
     extract_literal_blocks = processor.extract_literal_blocks
     reinject_literal_blocks = processor.reinject_literal_blocks
+    is_legacy_toc = processor.is_legacy_toc
     is_structural_break = processor.is_structural_break
     get_document_titles = processor.get_document_titles
     group_lines_into_raw_blocks = processor.group_lines_into_raw_blocks
