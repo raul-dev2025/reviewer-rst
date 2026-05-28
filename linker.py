@@ -40,6 +40,9 @@ get_level_from_symbol = None
 render_title = None
 clean_line_content = None
 strip_metadata = None
+TOC_ANCHOR_REMOVE_PATTERN = None
+TOC_LIST_PREFIX_PATTERN = None
+
 
 def bind_dependencies():
     """
@@ -61,7 +64,7 @@ def bind_dependencies():
     # cleaner
     global clean_line_content, strip_metadata
     # regex
-    global reference_pattern, ADMIN_SECTION_PATTERN, RST_UNDERLINE_PATTERN, PANDOC_LINK_PATTERN, PANDOC_ANCHOR_PATTERN, FOOTNOTE_PATTERN
+    global reference_pattern, ADMIN_SECTION_PATTERN, RST_UNDERLINE_PATTERN, PANDOC_LINK_PATTERN, PANDOC_ANCHOR_PATTERN, FOOTNOTE_PATTERN, TOC_LIST_PREFIX_PATTERN, TOC_ANCHOR_REMOVE_PATTERN
 
 
     # Inyección de excepiones
@@ -81,6 +84,8 @@ def bind_dependencies():
     processor.ADMIN_SECTION_PATTERN = regex.ADMIN_SECTION_PATTERN
     processor.FOOTNOTE_PATTERN = regex.FOOTNOTE_PATTERN
     processor.RST_UNDERLINE_PATTERN = regex.RST_UNDERLINE_PATTERN
+    processor.TOC_LIST_PREFIX_PATTERN = regex.TOC_LIST_PREFIX_PATTERN
+    processor.TOC_ANCHOR_REMOVE_PATTERN= regex.TOC_ANCHOR_REMOVE_PATTERN
 
     # reference_processor module
     reference_processor.reference_pattern = regex.reference_pattern
@@ -129,7 +134,9 @@ def bind_dependencies():
     RST_UNDERLINE_PATTERN = regex.RST_UNDERLINE_PATTERN
     PANDOC_LINK_PATTERN = regex.PANDOC_LINK_PATTERN
     PANDOC_ANCHOR_PATTERN = regex.PANDOC_ANCHOR_PATTERN
-    FOOTNOTE_PATTERN = regex.FOOTNOTE_PATTERN    
+    FOOTNOTE_PATTERN = regex.FOOTNOTE_PATTERN
+    TOC_ANCHOR_REMOVE_PATTERN = regex.TOC_ANCHOR_REMOVE_PATTERN
+    TOC_LIST_PREFIX_PATTERN = regex.TOC_LIST_PREFIX_PATTERN
 
     # Inyección de la librería estándar
     current_module = sys.modules[__name__]
