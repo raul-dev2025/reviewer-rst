@@ -44,7 +44,12 @@ def is_structural_break(line, seek_refs=False):
   return False
 
 def is_likely_same_paragraph(line_a, line_b):
-  #
+  """
+  Decide si la siguiente linea en el parrafo, debe fusionarse con la anterior.
+  """
+  is_list_element = bool(this.LIST_ITEM_PREFIX_PATTERN.match(line_b.strip()))
+  if is_list_element: return False
+
   if line_a and line_a[-1] not in '.!?':
     if line_b and line_b[0].islower():
       return True
@@ -139,7 +144,7 @@ def is_legacy_toc(clean_text, doc_titles):
         return False
 
     text_stripped = clean_text.strip()
-    text_base = this.re.sub(this.TOC_LIST_PREFIX_PATTERN, '', text_stripped)
+    text_base = this.re.sub(this.LIST_ITEM_PREFIX_PATTERN, '', text_stripped)
     text_base = this.re.sub(this.TOC_ANCHOR_REMOVE_PATTERN, '', text_base).strip()
 
     if not text_base:
@@ -296,6 +301,10 @@ def group_lines_into_raw_blocks(lines, seek_refs=False):
         should_close = True
     elif is_structural_break(line, False) or (next_line and is_underline(next_line)):
       should_close = True
+
+    if next_line and this.LIST_ITEM_PREFIX_PATTERN.match(lines[i+1]):
+      if not is_likely_same_paragraph(line, next_line):
+        should_close = True
 
     if is_underline(line):
       should_close = True
