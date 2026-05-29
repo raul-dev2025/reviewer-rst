@@ -37,7 +37,7 @@ FOOTNOTE_PATTERN = re.compile(r'^(\.\.\s+)?\[#?[a-zA-Z0-9]+\]')
 RST_UNDERLINE_PATTERN = re.compile(r'^([=\-~^])\1{2,}$')
 
 # Detecta prefijos comunes de listas: guiones, asteriscos o números seguidos de punto o paréntesis (ej: "- ", "1. ", "2) ")
-TOC_LIST_PREFIX_PATTERN = re.compile(r'^\s*(?:[-*]|\d+[.)])\s*')
+LIST_ITEM_PREFIX_PATTERN = re.compile(r'^\s*(?:[-*]\s+|\d+[.)]\s*)')
 
 # Detecta cualquier estructura de anclaje limpia o con almohadilla para removerla en la comparación (ej: "<#i1>__", "<i2>__")
 TOC_ANCHOR_REMOVE_PATTERN = re.compile(r'<#?[a-zA-Z0-9_-]+>')
